@@ -13,7 +13,9 @@
     "gate": "npm run lint && npm run typecheck && npm run check:contrast && npm run check:content && npm run build",
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:content": "tsx scripts/check-content.mts",
-    "media": "tsx scripts/generate-placeholders.mts"
+    "media": "tsx scripts/generate-placeholders.mts",
+    "audit:a11y": "node scripts/audit-a11y.mjs",
+    "audit:keyboard": "node scripts/audit-keyboard.mjs"
   },
   "dependencies": {
     "framer-motion": "^13.4.4",
@@ -24,6 +26,7 @@
     "resend": "^6.30.0"
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.13.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -32,6 +35,7 @@
     "eslint-config-next": "16.3.6",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "puppeteer": "^25.12.0",
     "sharp": "^0.35.4",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
