@@ -50,7 +50,7 @@ jobs:
         run: npm run build
 
       - name: Cache the build for the audit job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: next-build
           path: |
@@ -111,7 +111,7 @@ jobs:
 
       - name: Upload Lighthouse results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lighthouse-results
           path: lighthouse-results.json
