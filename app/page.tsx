@@ -1,3 +1,4 @@
+import { SiteFooter } from "@/components/chrome/site-footer";
 import { SiteHeader } from "@/components/chrome/site-header";
 import { Section } from "@/components/layout/section";
 import { Stack } from "@/components/layout/stack";
@@ -35,6 +36,8 @@ export default function HomePage() {
           </Section>
         ))}
       </main>
+
+      <SiteFooter />
     </>
   );
 }
