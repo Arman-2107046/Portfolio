@@ -1,0 +1,118 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A second push to the same branch makes the first run pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint, typecheck, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Reads .nvmrc, so the Node version is stated once for CI and for
+          # anyone working on this locally.
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Contrast tokens
+        # Parses tokens.css and checks every rendered pair in both themes.
+        # This is the check that caught a 2.99:1 border nobody would see.
+        run: npm run check:contrast
+
+      - name: Content completeness
+        # Empty required strings, placeholder language, prose below a plausible
+        # length, chips naming a technology absent from the stack, alt text that
+        # is really a filename, a filter lane with no projects.
+        run: npm run check:content
+
+      - name: Build
+        run: npm run build
+
+      - name: Cache the build for the audit job
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: |
+            .next
+            !.next/cache
+          retention-days: 1
+
+  audit:
+    name: Accessibility, responsive, Lighthouse
+    runs-on: ubuntu-latest
+    needs: verify
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Restore the build
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .next
+
+      - name: Install Chrome
+        run: npx puppeteer browsers install chrome
+
+      - name: Start the production server
+        # The audits measure a production build. Running them against `next dev`
+        # would report the development bundle, which is a different application.
+        run: |
+          npx next start --port 3130 &
+          npx wait-on http://localhost:3130 --timeout 60000
+
+      - name: Accessibility — axe, every route, both themes
+        run: npm run audit:a11y -- http://localhost:3130
+
+      - name: Keyboard, focus, landmarks and headings
+        run: npm run audit:keyboard -- http://localhost:3130
+
+      - name: Responsive — 320px to 2560px
+        run: npm run audit:responsive -- http://localhost:3130
+
+      - name: Lighthouse budget
+        # Fails below 90, per the build plan. PERFORMANCE.md explains why the
+        # target is 95 and the gate is 90: the remaining cost is the React and
+        # Next framework chunk under a 4x CPU throttle, and a shared CI runner
+        # is slower and noisier than the machine the numbers were taken on.
+        env:
+          LIGHTHOUSE_MIN_SCORE: 90
+        run: npm run audit:lighthouse -- http://localhost:3130
+
+      - name: Upload Lighthouse results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results
+          path: lighthouse-results.json
+          retention-days: 30

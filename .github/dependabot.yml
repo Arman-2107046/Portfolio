@@ -1,0 +1,34 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    # One PR for all the dev tooling rather than six. The lint, type and test
+    # toolchain moves together, and reviewing it as one change is both faster
+    # and more honest than approving six that only make sense together.
+    groups:
+      dev-tooling:
+        dependency-type: development
+        patterns:
+          - "*"
+      next:
+        patterns:
+          - "next"
+          - "eslint-config-next"
+          - "react"
+          - "react-dom"
+          - "@types/react*"
+    commit-message:
+      prefix: chore
+      include: scope
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: ci

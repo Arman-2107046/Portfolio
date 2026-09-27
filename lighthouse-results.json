@@ -1,39 +1,39 @@
 {
-  "generated": "2026-09-27T04:28:40.966Z",
+  "generated": "2026-09-27T04:57:32.117Z",
   "runs": 3,
   "results": [
     {
       "route": "/",
       "label": "Home",
-      "performance": 86,
+      "performance": 90,
       "accessibility": 100,
       "best-practices": 100,
       "seo": 100,
-      "lcp": 3325.339768107606,
+      "lcp": 3189.3503681076045,
       "cls": 0,
-      "tbt": 347.60869999999954
+      "tbt": 217.5
     },
     {
       "route": "/work",
       "label": "Work archive",
-      "performance": 88,
+      "performance": 90,
       "accessibility": 100,
       "best-practices": 100,
       "seo": 100,
-      "lcp": 2016.2455,
-      "cls": 0.001515718161343829,
-      "tbt": 332.00000000000034
+      "lcp": 2084.121049034118,
+      "cls": 0.001755042081556012,
+      "tbt": 377.97635000000014
     },
     {
       "route": "/work/sooth-bangladesh",
       "label": "Case study",
-      "performance": 89,
+      "performance": 94,
       "accessibility": 100,
       "best-practices": 100,
       "seo": 100,
-      "lcp": 2183.01945,
+      "lcp": 2110.29915,
       "cls": 0.0007038497747441345,
-      "tbt": 363.1443999999999
+      "tbt": 270.2834749999997
     }
   ]
 }

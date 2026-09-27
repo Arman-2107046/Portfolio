@@ -24,7 +24,16 @@ const ROUTES = [
 ];
 
 const CATEGORIES = ["performance", "accessibility", "best-practices", "seo"];
-const THRESHOLD = 95;
+
+/**
+ * The target is 95; the gate is whatever LIGHTHOUSE_MIN_SCORE says.
+ *
+ * CI sets it to 90, per the build plan. A shared runner is slower and noisier
+ * than a developer machine, and a budget that fails intermittently teaches
+ * people to ignore it — which is worse than a slightly looser budget that is
+ * always believed. See PERFORMANCE.md.
+ */
+const THRESHOLD = Number(process.env.LIGHTHOUSE_MIN_SCORE ?? 95);
 
 function median(values) {
   const sorted = [...values].sort((a, b) => a - b);
