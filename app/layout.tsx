@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { GridOverlay } from "@/components/dev/grid-overlay";
+import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import "./globals.css";
 
 /*
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${instrumentSans.variable} ${instrumentSerif.variable} ${plexMono.variable}`}
     >
       <body>
+        <SmoothScroll />
         {children}
         {process.env.NODE_ENV === "development" ? <GridOverlay /> : null}
       </body>
