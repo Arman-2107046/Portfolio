@@ -479,3 +479,22 @@
     }
   }
 }
+
+/*
+ * Minimum touch target.
+ *
+ * Scoped to coarse pointers on purpose. A finger needs 44px; a mouse does not,
+ * and padding every control to 44px on desktop would wreck the density the
+ * whole layout depends on. This is one of the few places where the device
+ * genuinely should change the design rather than just the arrangement.
+ *
+ * inline-flex with centred items rather than extra padding, so the control
+ * grows around its label instead of pushing what follows it.
+ */
+@utility tap-target {
+  @media (pointer: coarse) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}

@@ -16,7 +16,8 @@
     "media": "tsx scripts/generate-placeholders.mts",
     "audit:a11y": "node scripts/audit-a11y.mjs",
     "audit:keyboard": "node scripts/audit-keyboard.mjs",
-    "audit:lighthouse": "node scripts/audit-lighthouse.mjs"
+    "audit:lighthouse": "node scripts/audit-lighthouse.mjs",
+    "audit:responsive": "node scripts/audit-responsive.mjs"
   },
   "dependencies": {
     "framer-motion": "^13.4.4",

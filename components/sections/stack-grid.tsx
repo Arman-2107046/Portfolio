@@ -74,7 +74,13 @@ function StackEntry({ item }: { item: StackItem }) {
         className={cn(
           "type-caption bg-ink text-ink-inverse pointer-events-none absolute",
           "bottom-[calc(100%-var(--space-2))] left-0 z-[var(--z-raised)]",
-          "w-max max-w-[min(22rem,78vw)] px-[var(--space-3)] py-[var(--space-2)]",
+          // Width follows the grid cell rather than the text. As `w-max` the
+          // note was as wide as its longest line, so an item in the last
+          // column pushed a 22rem panel past the right edge of the viewport
+          // and the whole page scrolled sideways at 1024px. Matching the cell
+          // means it cannot overflow at any width, at the cost of wrapping to
+          // another line or two.
+          "w-full px-[var(--space-3)] py-[var(--space-2)]",
           "opacity-0 transition-opacity duration-[var(--duration-fast)]",
           "group-hover:pointer-events-auto group-hover:opacity-100",
           "group-focus-within:pointer-events-auto group-focus-within:opacity-100",

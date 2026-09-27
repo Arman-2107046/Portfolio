@@ -112,7 +112,7 @@ export function SiteHeader({ inPageNav = true, hasHero = true }: SiteHeaderProps
           <div className="flex h-[var(--space-20)] items-center justify-between gap-[var(--space-4)]">
             <Link
               href="/"
-              className="type-mono hover:text-ink-muted transition-colors duration-[var(--duration-fast)]"
+              className="type-mono tap-target hover:text-ink-muted transition-colors duration-[var(--duration-fast)]"
             >
               {site.name}
             </Link>
@@ -127,7 +127,7 @@ export function SiteHeader({ inPageNav = true, hasHero = true }: SiteHeaderProps
                           href={`#${item.id}`}
                           aria-current={activeId === item.id ? "true" : undefined}
                           className={cn(
-                            "type-mono hover:bg-wash relative block rounded-xs",
+                            "type-mono tap-target hover:bg-wash relative rounded-xs",
                             "px-[var(--space-3)] py-[var(--space-2)]",
                             "transition-colors duration-[var(--duration-fast)]",
                             activeId === item.id ? "text-ink" : "text-ink-muted",
@@ -166,7 +166,7 @@ export function SiteHeader({ inPageNav = true, hasHero = true }: SiteHeaderProps
                   onClick={() => setMenuOpen((current) => !current)}
                   aria-expanded={menuOpen}
                   aria-controls="mobile-navigation"
-                  className="type-mono -mr-[var(--space-2)] rounded-xs px-[var(--space-3)] py-[var(--space-2)] md:hidden"
+                  className="type-mono tap-target -mr-[var(--space-2)] rounded-xs px-[var(--space-3)] py-[var(--space-2)] md:hidden"
                 >
                   {menuOpen ? "Close" : "Menu"}
                 </button>

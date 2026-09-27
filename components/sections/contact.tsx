@@ -138,7 +138,7 @@ export function Contact() {
 
             <a
               href={`mailto:${site.email}`}
-              className="type-h2 decoration-accent mt-[var(--space-3)] block underline decoration-[1px] underline-offset-[6px]"
+              className="type-h2 tap-target decoration-accent mt-[var(--space-3)] underline decoration-[1px] underline-offset-[6px]"
             >
               {site.email}
             </a>

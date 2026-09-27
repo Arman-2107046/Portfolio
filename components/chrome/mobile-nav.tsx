@@ -105,7 +105,10 @@ export function MobileNav({ open, onClose, triggerRef, activeId }: MobileNavProp
       aria-label="Site navigation"
       className={cn(
         "bg-canvas fixed inset-0 z-[var(--z-overlay)] md:hidden",
-        "flex flex-col px-[var(--page-margin)] pt-[var(--space-24)] pb-[var(--space-10)]",
+        "flex flex-col px-[max(var(--page-margin),env(safe-area-inset-left))]",
+        // Clears the notch at the top and the home indicator at the bottom.
+        "pt-[calc(var(--space-24)+env(safe-area-inset-top))]",
+        "pb-[calc(var(--space-10)+env(safe-area-inset-bottom))]",
         "transition-opacity duration-[var(--duration-base)] ease-out",
         open ? "opacity-100" : "pointer-events-none opacity-0",
       )}

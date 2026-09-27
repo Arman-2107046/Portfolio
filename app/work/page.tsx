@@ -69,7 +69,7 @@ export default async function WorkIndexPage(props: PageProps<"/work">) {
                     href="/work"
                     aria-current={!activeLane && !unknownLane ? "true" : undefined}
                     className={cn(
-                      "type-mono block rounded-xs border px-[var(--space-3)] py-[var(--space-2)]",
+                      "type-mono tap-target rounded-xs border px-[var(--space-3)] py-[var(--space-2)]",
                       "transition-colors duration-[var(--duration-fast)]",
                       !activeLane && !unknownLane
                         ? "border-ink bg-ink text-ink-inverse"
@@ -86,7 +86,7 @@ export default async function WorkIndexPage(props: PageProps<"/work">) {
                       href={`/work?lane=${lane}`}
                       aria-current={activeLane === lane ? "true" : undefined}
                       className={cn(
-                        "type-mono block rounded-xs border px-[var(--space-3)] py-[var(--space-2)]",
+                        "type-mono tap-target rounded-xs border px-[var(--space-3)] py-[var(--space-2)]",
                         "transition-colors duration-[var(--duration-fast)]",
                         activeLane === lane
                           ? "border-ink bg-ink text-ink-inverse"

@@ -108,7 +108,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
             <div className="pt-[var(--space-12)] pb-[var(--space-10)]">
               <Link
                 href="/#work"
-                className="type-mono text-ink-muted hover:text-ink transition-colors duration-[var(--duration-fast)]"
+                className="type-mono tap-target text-ink-muted hover:text-ink transition-colors duration-[var(--duration-fast)]"
               >
                 Back to selected work
               </Link>

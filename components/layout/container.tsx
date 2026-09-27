@@ -32,7 +32,13 @@ export function Container({
   return (
     <Tag
       className={cn(
-        "mx-auto w-full px-[var(--page-margin)] md:px-[var(--gutter)]",
+        // max() rather than a plain addition: the safe-area inset only takes
+        // effect where it is larger than the page margin, so nothing changes
+        // on a device without a notch. This is what keeps content off the
+        // rounded corners in landscape.
+        "mx-auto w-full",
+        "px-[max(var(--page-margin),env(safe-area-inset-left))]",
+        "md:px-[max(var(--gutter),env(safe-area-inset-left))]",
         WIDTHS[width],
         className,
       )}

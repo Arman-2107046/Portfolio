@@ -33,7 +33,7 @@ export function SiteFooter() {
 
               <a
                 href={`mailto:${site.email}`}
-                className="type-h2 decoration-accent mt-[var(--space-4)] inline-block underline decoration-[1px] underline-offset-[6px]"
+                className="type-h2 tap-target decoration-accent mt-[var(--space-4)] inline-block underline decoration-[1px] underline-offset-[6px]"
               >
                 {site.email}
               </a>
@@ -60,7 +60,7 @@ export function SiteFooter() {
                   <dd>
                     <a
                       href={social.href}
-                      className="decoration-hairline hover:decoration-accent underline decoration-[1px] underline-offset-4 transition-colors duration-[var(--duration-fast)]"
+                      className="decoration-hairline tap-target hover:decoration-accent underline decoration-[1px] underline-offset-4 transition-colors duration-[var(--duration-fast)]"
                       {...(social.href.startsWith("http")
                         ? { target: "_blank", rel: "noreferrer noopener" }
                         : {})}

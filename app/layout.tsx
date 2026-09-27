@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { GridOverlay } from "@/components/dev/grid-overlay";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
@@ -39,6 +39,17 @@ const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   preload: false,
 });
+
+/**
+ * viewport-fit=cover is what gives env(safe-area-inset-*) a non-zero value on
+ * a notched device. Without it the insets below are always 0 and the safe-area
+ * padding is dead code.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   // Every relative URL in metadata — canonical, OG, Twitter — resolves against

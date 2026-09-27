@@ -35,7 +35,7 @@ export function CopyEmail() {
       type="button"
       onClick={copy}
       className={cn(
-        "type-mono border-edge hover:bg-wash inline-flex items-center justify-center",
+        "type-mono tap-target border-edge hover:bg-wash inline-flex items-center justify-center",
         "rounded-xs border px-[var(--space-4)] py-[var(--space-2)]",
         "transition-colors duration-[var(--duration-fast)]",
       )}
