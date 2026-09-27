@@ -1,1 +1,225 @@
 @import "tailwindcss";
+@import "./styles/tokens.css";
+
+/*
+ * Map the token layer onto Tailwind's theme. `inline` is required: it makes
+ * the generated utilities emit `var(--canvas)` rather than baking in the
+ * light value, which is what lets [data-theme="dark"] repaint the whole site
+ * without a second set of classes.
+ */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-raised: var(--raised);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-inverse: var(--ink-inverse);
+  --color-hairline: var(--hairline);
+  --color-edge: var(--edge);
+  --color-accent: var(--accent);
+  --color-wash: var(--wash);
+  --color-wash-strong: var(--wash-strong);
+
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+
+  --radius-none: var(--radius-none);
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-full: var(--radius-full);
+
+  --ease-out: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
+
+  --spacing: 0.25rem;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: var(--hairline);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Anchor links and in-page nav land below the sticky header. */
+    scroll-padding-top: var(--space-20);
+    background-color: var(--canvas);
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    /* Long client names and URLs must not force a horizontal scrollbar. */
+    overflow-wrap: break-word;
+  }
+
+  /*
+   * The sheen. A single soft highlight anchored to the top of the viewport so
+   * the pure-white canvas reads as lit paper. Fixed, non-interactive, one
+   * colour stop fading to transparent — structural lighting, not a
+   * decorative gradient.
+   */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 60vh;
+    z-index: var(--z-under);
+    pointer-events: none;
+    background: radial-gradient(120% 100% at 50% 0%, var(--sheen) 0%, transparent 70%);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: inherit;
+    font-weight: inherit;
+    text-wrap: balance;
+  }
+
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+    background: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  /* Firefox draws its own inner dotted focus border. */
+  ::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  img,
+  picture,
+  video,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  ::selection {
+    background-color: var(--ink);
+    color: var(--canvas);
+  }
+
+  /*
+   * One focus ring for the whole site. `outline` rather than a box-shadow so
+   * it survives overflow clipping, and `outline-offset` so it never crowds the
+   * glyphs. :focus-visible only, so a mouse click on a button does not paint a
+   * ring, but never `outline: none` on its own.
+   */
+  :focus-visible {
+    outline: var(--border-ring) solid var(--accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  /* Scrollbar, styled just enough to stop the default chrome fighting the
+   * palette in dark mode. */
+  html {
+    scrollbar-color: var(--edge) transparent;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--edge);
+    border: 3px solid var(--canvas);
+    border-radius: var(--radius-full);
+  }
+
+  /*
+   * Reduced motion, enforced at the base layer. Components do not have to
+   * remember: durations collapse to instant and no transform-based transition
+   * survives. lib/motion.ts applies the same rule to the Framer variants, and
+   * the Lenis provider refuses to mount.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@utility measure {
+  max-width: var(--measure);
+}
+
+@utility measure-lead {
+  max-width: var(--measure-lead);
+}
