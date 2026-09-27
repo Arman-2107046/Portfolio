@@ -1,0 +1,829 @@
+================================================================================
+PROCESS.TXT — BUILD PLAN FOR ARMAN RAHMAN RAFI'S PORTFOLIO
+Read this file top to bottom before writing a single line of code.
+Execute steps in order. Do not skip ahead. Do not batch steps.
+================================================================================
+
+
+--------------------------------------------------------------------------------
+0. RULES OF ENGAGEMENT (APPLY TO EVERY STEP)
+--------------------------------------------------------------------------------
+
+R1. One step = one commit = one push. Never combine two steps into one commit.
+
+R2. Before every commit, run the gate:
+      npm run lint && npx tsc --noEmit && npm run build
+    If any command fails, fix it. Do not commit broken code. Do not disable
+    a lint rule to get past it unless you write the reason in the commit body.
+
+R3. Commit format (Conventional Commits):
+      <type>(<scope>): <imperative summary under 60 chars>
+
+      Body (optional, wrap at 72): what changed and why.
+
+    Types: feat, fix, style, refactor, perf, chore, docs, ci, build, test.
+
+R4. Push command after every commit:
+      git add -A
+      git commit -m "..."
+      git push origin main
+
+R5. After each step, print a short status block to the console:
+      STEP <n> COMPLETE
+      Files touched: <list>
+      Design decision: <one sentence, why you chose what you chose>
+      Commit: <hash + message>
+      Next: STEP <n+1>
+
+R6. Write real copy. Never ship lorem ipsum, never ship "Project Title Here",
+    never ship placeholder numbers. If a fact is missing, write a realistic
+    line and add it to OPEN-QUESTIONS.md for Arman to confirm.
+
+R7. Accessibility and responsiveness are not a final phase. Every component you
+    build is keyboard operable, has visible focus, passes AA contrast, and works
+    at 375px the moment it is committed.
+
+R8. If you are unsure between two design options, build the more restrained one.
+
+
+--------------------------------------------------------------------------------
+1. THE SUBJECT
+--------------------------------------------------------------------------------
+
+Name:        Arman Rahman Rafi
+Role:        Full-Stack Web Developer
+Education:   CSE, Khulna University of Engineering & Technology (KUET), Bangladesh
+Location:    Khulna, Bangladesh. Works remotely with clients worldwide.
+
+Positioning: An end-to-end web partner. He designs the schema, writes the
+             application, provisions the server, wires the analytics, and keeps
+             it running. The differentiator is not "I know React" — it is that
+             one person owns the system from database to conversion event.
+
+Audience:    Founders, agency owners, and e-commerce operators who need a build
+             they will not have to hand to three separate contractors.
+
+Primary job of the site:
+             Make a stranger trust him with a real budget within 30 seconds,
+             then let them verify that trust through the case studies.
+
+Voice:       Plain, technical, unhurried. No hype adjectives. No "passionate
+             about clean code." Show the decision, show the result.
+
+
+--------------------------------------------------------------------------------
+2. TECHNICAL BASELINE
+--------------------------------------------------------------------------------
+
+Framework:   Next.js (latest stable, App Router) + TypeScript strict mode
+Styling:     Tailwind CSS with a custom token layer in @theme / CSS variables
+Motion:      Framer Motion
+Scroll:      Lenis
+Fonts:       next/font, self-hosted, subset, preloaded
+Images:      next/image only, AVIF + WebP, explicit sizes
+Content:     Typed data files under /content — no CMS in v1
+Forms:       Server action + Resend (or Nodemailer via SMTP) for email delivery
+Deploy:      Vercel for v1. VPS path documented in Step 24 as the alternative.
+Package mgr: pnpm
+
+Hard constraints:
+  - No UI template kits. No copy-pasted landing page components.
+  - No component left with unmodified shadcn/default styling.
+  - No `any` in TypeScript. No `@ts-ignore` without a comment.
+  - No client component unless it needs state, effects, or events.
+
+
+--------------------------------------------------------------------------------
+3. ART DIRECTION BRIEF
+--------------------------------------------------------------------------------
+
+Direction: quiet, engineered, editorial. The site should feel like technical
+documentation that happens to be beautiful — precise, spacious, unembellished.
+Confidence comes from restraint and typographic scale, not from effects.
+
+Spend the boldness in exactly one place: the hero type treatment. Everything
+after it stays disciplined.
+
+FORBIDDEN (these are the tells of a generated site — none of them ship):
+  - Purple-to-blue or any multi-stop decorative gradient
+  - Glassmorphism, frosted cards, blurred translucent panels
+  - Emoji used as iconography or section markers
+  - "Hi, I'm Arman 👋" hero
+  - Skill percentage bars, star ratings, radar charts of "proficiency"
+  - Rainbow-coloured technology logos (monochrome them)
+  - Stock photos of laptops, code on screens, handshakes
+  - Everything centered
+  - Identical rounded cards with identical soft grey shadows
+  - Tracked-out ALL-CAPS eyebrow labels above every heading
+  - Meta strings joined with middle dots (A · B · C)
+  - An arrow "→" glued onto every link and button label
+  - 01 / 02 / 03 numbering on content that is not actually a sequence
+  - Warm-cream background with terracotta accent (overused default)
+  - Near-black background with one acid-green accent (overused default)
+
+Required quality floor:
+  - Light and dark themes both fully designed. Pick which one is default in
+    Step 4 and justify it.
+  - prefers-reduced-motion honoured everywhere
+  - AA contrast minimum, AAA on body copy where achievable
+  - Visible focus ring on every interactive element, never outline:none alone
+
+
+--------------------------------------------------------------------------------
+4. THE WORK TO SHOWCASE
+--------------------------------------------------------------------------------
+
+Six projects. Order them as listed — strongest first. For each, the case study
+must answer: what was the problem, what did he build, what decision was
+non-obvious, what changed as a result.
+
+P1. AmidX Technologies — Corporate site for a technology company
+    Stack: React, Laravel, custom CMS layer, Tailwind
+    Angle: A monochrome premium agency aesthetic delivered on a CMS-driven
+    architecture, so non-technical staff can edit without breaking the design.
+
+P2. Sooth Bangladesh — E-commerce platform
+    Stack: Laravel, React, Meta Conversions API, XML product feed, GA4
+    Angle: Server-side conversion tracking. Browser pixels were losing events
+    to ad blockers and iOS; CAPI restored attribution. Catalog feed powers
+    dynamic product ads.
+
+P3. Hockerty Premium Suit Designer — Made-to-measure suit configurator
+    Stack: React, Laravel, Cloudinary, bulk image pipeline
+    Angle: Real-time visual customisation over a very large asset library.
+    The engineering problem was image delivery and state, not UI.
+
+P4. Digital Products Store — SEO-first digital goods commerce
+    Stack: Next.js, Laravel, Filament, PostgreSQL, Redis, single Ubuntu VPS
+    Angle: Built for organic acquisition from day one. Single-VPS self-hosted
+    architecture chosen deliberately over managed services for cost and control.
+
+P5. H&R Group — Garment manufacturing and export (Bangladesh)
+    Stack: React, Framer Motion, Tailwind
+    Angle: An industrial B2B exporter presented with the polish of a consumer
+    brand, to win international buyers.
+
+P6. BEES — Bangladesh Extension Education Services (NGO)
+    Stack: React, Laravel
+    Angle: Information architecture and navigation for a large, content-heavy
+    organisation. The work was structure, not decoration.
+
+Capability lanes (for the Capabilities section):
+  Product Engineering — Laravel, Filament, Inertia.js, PHP, React, Next.js,
+                        TypeScript, Tailwind CSS, Framer Motion
+  Data & Infrastructure — MySQL, PostgreSQL, MongoDB, Redis, Ubuntu VPS, Nginx,
+                        Docker, GitHub Actions, CI/CD, zero-downtime deploys
+  Commerce            — Shopify, Liquid theme development, custom storefronts,
+                        catalog and checkout work, CRO
+  Measurement         — GA4, Google Tag Manager, Meta Pixel, Meta Conversions
+                        API (server-side), event schema design, attribution QA
+
+
+================================================================================
+PHASE A — FOUNDATION
+================================================================================
+
+--------------------------------------------------------------------------------
+STEP 1 — REPOSITORY AND SCAFFOLD
+--------------------------------------------------------------------------------
+Goal: A running Next.js app with strict TypeScript, on main, pushed.
+
+Do:
+  1. pnpm create next-app@latest . --typescript --tailwind --app --eslint
+  2. Enable "strict": true and "noUncheckedIndexedAccess": true in tsconfig.
+  3. Add Prettier + prettier-plugin-tailwindcss. Add .editorconfig.
+  4. Add .nvmrc with the Node version.
+  5. Write README.md: what this is, how to run it, how to add a project.
+  6. Delete all default boilerplate markup from app/page.tsx. Leave a bare page.
+  7. git init if needed, set remote, ensure branch is main.
+
+Accept when: pnpm dev runs, pnpm build passes, no default Next.js art remains.
+
+Commit:
+  chore(setup): scaffold Next.js app with strict TS and tooling
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 2 — DESIGN PLAN (NO CODE THIS STEP)
+--------------------------------------------------------------------------------
+Goal: A written, reviewed design plan before any visual code exists.
+
+Do:
+  1. Create DESIGN.md containing:
+     - Palette: 5–6 named hex values with the role of each. Name them by role
+       (canvas, ink, ink-muted, hairline, accent), never by colour name.
+     - Type: one or two families, their roles, and a full scale from caption to
+       display using clamp(). State tracking and leading per size.
+     - Grid: column count, gutters, max width, and where content is allowed to
+       break the grid.
+     - Layout concept: three ASCII wireframes (hero, work list, case study).
+     - Principles: five sentences on what makes THIS site not generic.
+  2. Review your own plan. For each decision ask: "would I have produced this
+     for any other developer portfolio?" If yes, change it and note the change
+     under a "Revisions" heading in DESIGN.md with the reasoning.
+  3. Confirm which theme is default (light or dark) and why, in one sentence.
+
+Accept when: DESIGN.md exists, includes a Revisions section with at least two
+genuine revisions, and no forbidden item from section 3 appears in it.
+
+Commit:
+  docs(design): add design plan, token system and layout concept
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 3 — DESIGN TOKENS
+--------------------------------------------------------------------------------
+Goal: Every colour, size, radius, and duration in the codebase comes from a token.
+
+Do:
+  1. Define CSS custom properties on :root and [data-theme="dark"] for colour.
+  2. Define the spacing scale (4px base), radius scale, border widths, z-index
+     scale, and motion durations/easings as tokens.
+  3. Wire them into the Tailwind theme so classes like bg-canvas, text-ink,
+     border-hairline exist.
+  4. Add globals.css: reset, selection colour, focus-visible ring, scrollbar,
+     ::-moz-focus-inner, prefers-reduced-motion media query base.
+  5. Build /styleguide (a dev-only route) rendering every token as a swatch.
+
+Accept when: /styleguide renders all tokens in both themes. No raw hex value
+exists anywhere outside the token definition file.
+
+Commit:
+  feat(tokens): add colour, spacing, radius and motion token system
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 4 — TYPOGRAPHY SYSTEM
+--------------------------------------------------------------------------------
+Goal: The type scale from DESIGN.md, implemented and visible.
+
+Do:
+  1. Load fonts via next/font (self-hosted files under /public/fonts or the
+     next/font/google loader). Subset to latin. display: swap. Preload the
+     display face used above the fold.
+  2. Implement the scale as utility classes or a <Text> component:
+     display-xl, display-l, h1, h2, h3, body-l, body, caption.
+  3. Set tracking per size (tighter as size increases), leading per size
+     (looser as size decreases). Body line length capped under 75 characters.
+  4. Extend /styleguide with the full specimen, including a paragraph at real
+     measure so line length can be judged.
+
+Accept when: The specimen reads well at 375px and 1440px. Display sizes scale
+fluidly via clamp() with no jump at breakpoints.
+
+Commit:
+  feat(type): implement fluid type scale and self-hosted fonts
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 5 — LAYOUT PRIMITIVES
+--------------------------------------------------------------------------------
+Goal: Reusable structure so no section reinvents its own container.
+
+Do:
+  1. Build <Container>, <Section>, <Grid>, <Stack> components with variant props.
+  2. Section owns vertical rhythm. No section sets its own top/bottom padding
+     ad hoc — this is where CSS specificity conflicts start.
+  3. Add a dev-only grid overlay toggled by a keyboard shortcut, so alignment
+     can be verified visually.
+
+Accept when: Two stacked sections have consistent rhythm with zero margin
+collapse bugs, and the overlay shows content snapping to the grid.
+
+Commit:
+  feat(layout): add container, section and grid primitives
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 6 — MOTION SYSTEM
+--------------------------------------------------------------------------------
+Goal: One motion vocabulary, defined once, reused everywhere.
+
+Do:
+  1. Create lib/motion.ts exporting shared variants and transitions:
+     easing tokens, reveal, stagger, maskReveal, fadeIn.
+  2. Standard easing: cubic-bezier(0.16, 1, 0.3, 1). No spring bounce.
+  3. Create useReducedMotion wrapper. When reduced motion is on, all variants
+     collapse to opacity-only or instant. This is enforced in the variant
+     factory, not remembered per component.
+  4. Install and mount Lenis in a client provider. Disable it under reduced
+     motion. Ensure it does not break anchor links or focus scrolling.
+
+Accept when: Toggling the OS reduced-motion setting visibly disables transforms
+site-wide without any component-level changes.
+
+Commit:
+  feat(motion): add shared motion vocabulary and smooth scroll provider
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 7 — THEME TOGGLE
+--------------------------------------------------------------------------------
+Goal: Light and dark, persisted, with no flash of wrong theme.
+
+Do:
+  1. Inline a blocking script in <head> that reads localStorage and sets
+     data-theme before paint. No FOUC.
+  2. Build the toggle control. Label it for screen readers with the action it
+     performs, not the current state.
+  3. Verify every token pair meets AA in both themes. Fix any that do not.
+
+Accept when: Hard reload in dark mode shows no white flash. Contrast passes.
+
+Commit:
+  feat(theme): add persisted light and dark theme with no flash
+  git push origin main
+
+
+================================================================================
+PHASE B — CONTENT LAYER
+================================================================================
+
+--------------------------------------------------------------------------------
+STEP 8 — TYPED CONTENT MODEL
+--------------------------------------------------------------------------------
+Goal: All site content lives in typed data, not in JSX.
+
+Do:
+  1. Define types in content/types.ts:
+       Project { slug, name, client, year, category, summary, problem,
+                 approach, architectureNotes[], outcomes[], stack[],
+                 cover, gallery[], liveUrl?, role, duration }
+       Capability { lane, description, items[] }
+       StackItem { name, lane, note, logo }
+  2. Populate content/projects.ts with all six projects from section 4.
+     Write full, real prose for problem / approach / outcomes. Where a metric
+     is unknown, write a qualitative outcome instead of inventing a number,
+     and log the gap in OPEN-QUESTIONS.md.
+  3. Populate content/capabilities.ts and content/stack.ts.
+  4. Populate content/site.ts: name, tagline options, email, socials, meta.
+
+Accept when: Typecheck passes and every field is filled for all six projects.
+
+Commit:
+  feat(content): add typed content model and real project data
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 9 — IMAGE PIPELINE
+--------------------------------------------------------------------------------
+Goal: Project imagery in place, optimised, with no layout shift.
+
+Do:
+  1. Create /public/work/<slug>/ directories.
+  2. Add placeholder-but-real-dimension images if final screenshots are not
+     available yet, and list the missing assets in OPEN-QUESTIONS.md.
+  3. Generate blurDataURL for each cover. Set width/height on every image.
+  4. Configure next.config image formats and device sizes.
+
+Accept when: CLS is 0 on the work list with a throttled connection.
+
+Commit:
+  feat(media): add project imagery with blur placeholders and fixed ratios
+  git push origin main
+
+
+================================================================================
+PHASE C — CHROME
+================================================================================
+
+--------------------------------------------------------------------------------
+STEP 10 — HEADER AND NAVIGATION
+--------------------------------------------------------------------------------
+Goal: Navigation that is quiet on desktop and genuinely usable on mobile.
+
+Do:
+  1. Desktop: minimal, sticky only after the hero leaves the viewport, and it
+     appears without a jarring slide.
+  2. Mobile: full-screen overlay. Trap focus while open, restore focus to the
+     trigger on close, close on Escape, lock body scroll.
+  3. Active section indication driven by IntersectionObserver.
+  4. Skip-to-content link as the first focusable element.
+
+Accept when: The whole nav is operable with keyboard only, and the mobile
+overlay returns focus correctly.
+
+Commit:
+  feat(nav): add header, mobile overlay navigation and skip link
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 11 — FOOTER
+--------------------------------------------------------------------------------
+Goal: A footer that closes the argument instead of dumping links.
+
+Do:
+  1. Include: a direct line to email, availability status, location and time
+     zone, GitHub, LinkedIn, WhatsApp, and the year.
+  2. Add a live local-time readout for Asia/Dhaka so international clients can
+     judge overlap. Render it client-side with a server-safe fallback.
+  3. No link sitemap wall. No newsletter box.
+
+Accept when: The footer works with JS disabled (time simply omitted).
+
+Commit:
+  feat(footer): add footer with availability, contact and local time
+  git push origin main
+
+
+================================================================================
+PHASE D — HOME PAGE
+================================================================================
+
+--------------------------------------------------------------------------------
+STEP 12 — HERO
+--------------------------------------------------------------------------------
+Goal: The one bold moment on the site.
+
+Do:
+  1. Content: name, what he does in one sentence a non-technical founder
+     understands, and the credibility line (CSE at KUET, six shipped platforms).
+  2. Type treatment is the design. The headline is an active visual element,
+     not text sitting in a box.
+  3. One orchestrated page-load sequence only: a line-by-line mask reveal with
+     ~70ms stagger. Nothing else on the page animates on load.
+  4. Availability pill with a real state value from content/site.ts.
+  5. No hero illustration, no 3D blob, no particle canvas.
+
+Accept when: The hero holds at 375px without the headline breaking awkwardly,
+and LCP element is text or a preloaded image.
+
+Commit:
+  feat(hero): build hero with orchestrated headline reveal
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 13 — SELECTED WORK LIST
+--------------------------------------------------------------------------------
+Goal: The centrepiece. Six projects, presented as an editorial index.
+
+Do:
+  1. One project per row on desktop. Each row: name, client type, year,
+     one-line outcome, three stack chips.
+  2. Hover reveals the project cover, following the cursor with damping. On
+     touch devices the cover is always visible instead.
+  3. Rows are links to /work/<slug>, wrapped so the entire row is the hit area.
+  4. Reveal on scroll once, subtly. Do not animate every row separately with
+     the same fade-and-rise — vary or restrain it.
+
+Accept when: Keyboard tab order walks the rows in order, focus is visible, and
+the hover preview never triggers layout shift.
+
+Commit:
+  feat(work): build selected work index with cursor-tracked previews
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 14 — CAPABILITIES
+--------------------------------------------------------------------------------
+Goal: Four lanes that explain the end-to-end claim.
+
+Do:
+  1. Render the four lanes from content/capabilities.ts.
+  2. Each lane: a plain-language description of what the client gets, then the
+     technologies underneath it. Lead with the outcome, not the tool.
+  3. Do not use identical cards. Use typographic hierarchy and hairlines.
+
+Accept when: A non-technical reader can tell what each lane means without
+knowing any of the tool names.
+
+Commit:
+  feat(capabilities): add four capability lanes
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 15 — TECH STACK GRID
+--------------------------------------------------------------------------------
+Goal: Proof of breadth, without turning into a logo salad.
+
+Do:
+  1. Grid of stack items grouped by lane, monochrome SVG marks only.
+  2. Each item exposes a one-line "how I use it" note on hover and on focus.
+     Implement as an accessible tooltip (aria-describedby), not title=.
+  3. Interaction is user-triggered only. Nothing auto-animates here.
+
+Accept when: Every note is reachable by keyboard and readable by screen reader.
+
+Commit:
+  feat(stack): add grouped technology grid with accessible notes
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 16 — PROCESS AND ABOUT
+--------------------------------------------------------------------------------
+Goal: The "I stay after launch" argument, and the human behind it.
+
+Do:
+  1. Process: Discover, Architect, Build, Operate. This IS a sequence, so
+     numbering is allowed here. Each step gets one sentence on what Arman
+     actually does and what the client receives.
+  2. About: first person, three short paragraphs. How he works, what he is
+     studying at KUET, what kind of problem he likes. No hobby list.
+  3. One portrait, treated consistently with the site's visual language.
+
+Accept when: The About copy contains no sentence that could appear on any other
+developer's portfolio.
+
+Commit:
+  feat(sections): add process timeline and about section
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 17 — CONTACT
+--------------------------------------------------------------------------------
+Goal: Make starting a conversation trivially easy.
+
+Do:
+  1. Large type CTA. Email displayed in full, with click-to-copy and a designed
+     confirmation state (the button that says "Copy email" confirms "Copied").
+  2. Form: name, email, project type (select), budget range (select), message.
+     Visible labels on every field — placeholders are format hints only.
+  3. Validation on blur, errors clear the moment the field becomes valid.
+     Error copy states what happened and how to fix it, and never blames.
+  4. Submit via a server action. Honeypot field plus a simple rate limit.
+  5. Designed success and failure states. Failure offers the email fallback.
+
+Accept when: Submitting with JS throttled still gives clear feedback, and every
+error message names the fix.
+
+Commit:
+  feat(contact): add contact section, validated form and server action
+  git push origin main
+
+
+================================================================================
+PHASE E — CASE STUDIES
+================================================================================
+
+--------------------------------------------------------------------------------
+STEP 18 — CASE STUDY TEMPLATE
+--------------------------------------------------------------------------------
+Goal: /work/[slug] that reads like a short engineering write-up.
+
+Do:
+  1. Static params generated from content/projects.ts.
+  2. Order: title block (name, role, year, stack, live link) → cover →
+     Context → The problem → What I built → Architecture decisions →
+     Outcomes → full stack list → next project.
+  3. "Architecture decisions" is the section that sells him. Three to five
+     short items, each naming a real trade-off and why he chose one side.
+  4. Add a thin reading-progress indicator. Hide it under reduced motion.
+  5. Prev/next navigation that wraps.
+
+Accept when: All six routes build statically and each reads differently from
+the others in structure emphasis, not just content.
+
+Commit:
+  feat(case-study): add dynamic case study template and routes
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 19 — WORK INDEX PAGE
+--------------------------------------------------------------------------------
+Goal: /work as a browsable archive, distinct from the homepage list.
+
+Do:
+  1. Filter by lane (commerce, platform, corporate, nonprofit).
+  2. Filtering updates the URL query so a filtered view is shareable.
+  3. Designed empty state if a filter returns nothing, with a way back.
+
+Accept when: Filter state survives a page reload and is announced to screen
+readers via a live region.
+
+Commit:
+  feat(work): add filterable work archive page
+  git push origin main
+
+
+================================================================================
+PHASE F — SYSTEM STATES
+================================================================================
+
+--------------------------------------------------------------------------------
+STEP 20 — ERROR, LOADING AND NOT-FOUND STATES
+--------------------------------------------------------------------------------
+Goal: Every state is designed, none is a browser default.
+
+Do:
+  1. app/not-found.tsx, app/error.tsx, app/loading.tsx, and route-level
+     loading files for /work.
+  2. Loading uses skeletons only where load exceeds ~1s; nothing for instant
+     transitions. No spinner that flashes for 80ms.
+  3. 404 copy points somewhere useful, in the site's voice.
+
+Accept when: Visiting /work/does-not-exist renders the designed 404.
+
+Commit:
+  feat(states): add designed 404, error and loading states
+  git push origin main
+
+
+================================================================================
+PHASE G — SEO, PERFORMANCE, ACCESSIBILITY
+================================================================================
+
+--------------------------------------------------------------------------------
+STEP 21 — METADATA AND STRUCTURED DATA
+--------------------------------------------------------------------------------
+Goal: Every route is share-ready and machine-readable.
+
+Do:
+  1. generateMetadata per route: unique title, description, canonical.
+  2. Dynamic OG images via next/og for home and each case study, using the
+     site's own typography.
+  3. JSON-LD: Person (with alumniOf KUET, knowsAbout the stack), WebSite, and
+     CreativeWork per case study.
+  4. sitemap.ts, robots.ts, web manifest, favicon set, apple-touch-icon.
+
+Accept when: Rich Results Test validates the Person and CreativeWork schema and
+OG images render correctly in a link preview debugger.
+
+Commit:
+  feat(seo): add per-route metadata, OG images and JSON-LD
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 22 — ACCESSIBILITY AUDIT
+--------------------------------------------------------------------------------
+Goal: Pass an audit you did not design around.
+
+Do:
+  1. Run axe on every route. Fix all violations, not just criticals.
+  2. Full keyboard pass: every interactive element reachable, focus never lost,
+     no keyboard trap outside intentional modals.
+  3. Screen reader pass on home and one case study. Heading order is logical,
+     landmarks are correct, images have meaningful alt or empty alt.
+  4. Verify all token pairs at AA in both themes, recheck after any fix.
+  5. Record findings and fixes in ACCESSIBILITY.md.
+
+Accept when: Zero axe violations across all routes, and ACCESSIBILITY.md lists
+what was tested and how.
+
+Commit:
+  fix(a11y): resolve audit findings and document accessibility testing
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 23 — PERFORMANCE PASS
+--------------------------------------------------------------------------------
+Goal: 95+ Lighthouse on mobile, all four categories.
+
+Do:
+  1. Run @next/bundle-analyzer. Dynamically import anything heavy that is
+     below the fold. Verify Framer Motion is not pulled into the initial chunk
+     unnecessarily.
+  2. Audit client components — convert any that do not need interactivity back
+     to server components.
+  3. Preload the LCP asset. Confirm fonts are not blocking render.
+  4. Re-run Lighthouse mobile on home, /work, and one case study. Record the
+     scores in PERFORMANCE.md.
+
+Accept when: All three routes score 95+ in all four categories on mobile.
+
+Commit:
+  perf: reduce client bundle and hit 95+ Lighthouse on mobile
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 24 — RESPONSIVE QA
+--------------------------------------------------------------------------------
+Goal: No layout breaks anywhere between 320px and 2560px.
+
+Do:
+  1. Test at 320, 375, 414, 768, 1024, 1280, 1440, 1920, 2560.
+  2. Check: no horizontal overflow, tap targets at least 44x44, text never
+     under 14px, safe-area insets respected on notched devices, sticky elements
+     do not cover content.
+  3. Test in Safari specifically — clip-path, backdrop, and 100vh behave
+     differently there. Use dvh where appropriate.
+
+Accept when: No overflow at any width and the site is comfortable one-handed.
+
+Commit:
+  fix(responsive): resolve layout issues across all breakpoints
+  git push origin main
+
+
+================================================================================
+PHASE H — SHIP AND OPERATE
+================================================================================
+
+--------------------------------------------------------------------------------
+STEP 25 — CI PIPELINE
+--------------------------------------------------------------------------------
+Goal: Main is protected by automation, not discipline.
+
+Do:
+  1. .github/workflows/ci.yml running on push and pull_request:
+     install (cached) → lint → typecheck → build → Lighthouse CI budget check.
+  2. Fail the build if Lighthouse performance drops below 90.
+  3. Add a dependency update workflow (Dependabot or Renovate).
+
+Accept when: The workflow passes green on the current commit.
+
+Commit:
+  ci: add lint, typecheck, build and Lighthouse budget workflow
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 26 — ANALYTICS AND MEASUREMENT
+--------------------------------------------------------------------------------
+Goal: The measurement lane demonstrated on his own site.
+
+Do:
+  1. GTM container, loaded after interactive, with consent gating.
+  2. GA4 configured through GTM. Events: view_case_study, copy_email,
+     contact_submit, outbound_click, cv_download.
+  3. Document the event schema (name, trigger, parameters) in ANALYTICS.md.
+     This doubles as a work sample.
+  4. Cookie consent banner only if analytics cookies are actually used; keep it
+     small and honest.
+
+Accept when: DebugView shows every event firing with the documented parameters.
+
+Commit:
+  feat(analytics): add GTM, GA4 event schema and consent gating
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 27 — DEPLOY
+--------------------------------------------------------------------------------
+Goal: Live on a custom domain, with a documented VPS alternative.
+
+Do:
+  1. Deploy to Vercel. Connect the domain, force HTTPS, verify redirects
+     (www to apex or the reverse, pick one and enforce it).
+  2. Set environment variables for the mail provider.
+  3. Add security headers: CSP (start report-only), HSTS, X-Content-Type-Options,
+     Referrer-Policy, Permissions-Policy.
+  4. Write DEPLOY.md documenting the alternative self-hosted path on Ubuntu:
+     Nginx reverse proxy, PM2 or systemd for the Node process, Certbot for TLS,
+     and a GitHub Actions deploy job over SSH with zero-downtime symlink swap.
+
+Accept when: The site is live, HTTPS-only, headers verified, and DEPLOY.md is
+complete enough for someone else to follow.
+
+Commit:
+  chore(deploy): ship to production with security headers and deploy docs
+  git push origin main
+
+
+--------------------------------------------------------------------------------
+STEP 28 — FINAL CRITIQUE
+--------------------------------------------------------------------------------
+Goal: One honest review pass before calling it done.
+
+Do:
+  1. Re-read section 3. Confirm zero forbidden patterns shipped. If any did,
+     remove them now.
+  2. Apply the Chanel rule: find the one element the page would be better
+     without, and delete it. Name it in the commit body.
+  3. Re-read every line of copy aloud. Cut every adjective that is not doing
+     work. Cut any sentence that could appear on another portfolio.
+  4. Verify the six case studies each contain at least one specific, non-obvious
+     technical decision.
+  5. Update OPEN-QUESTIONS.md with everything still needing Arman's input:
+     real metrics, final screenshots, live URLs, client permission to name.
+
+Accept when: You can state in one sentence what makes this site memorable, and
+that sentence is about a specific design or content decision, not about polish.
+
+Commit:
+  refactor: final critique pass, remove excess and tighten copy
+  git push origin main
+
+
+================================================================================
+DEFINITION OF DONE
+================================================================================
+
+[ ] All 28 steps committed and pushed individually
+[ ] Lighthouse 95+ mobile on home, /work, and a case study
+[ ] Zero axe violations on every route
+[ ] No horizontal overflow from 320px to 2560px
+[ ] Both themes fully designed, no flash on load
+[ ] prefers-reduced-motion fully honoured
+[ ] Six case studies with real prose and real architecture decisions
+[ ] No forbidden pattern from section 3 present
+[ ] CI green, deployed, custom domain, HTTPS enforced
+[ ] DESIGN.md, DEPLOY.md, ANALYTICS.md, ACCESSIBILITY.md, PERFORMANCE.md,
+    OPEN-QUESTIONS.md all present and current
