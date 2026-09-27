@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/chrome/site-header";
 import { Capabilities } from "@/components/sections/capabilities";
 import { Hero } from "@/components/sections/hero";
 import { SelectedWork } from "@/components/sections/selected-work";
+import { StackGrid } from "@/components/sections/stack-grid";
 import { Section } from "@/components/layout/section";
 import { Stack } from "@/components/layout/stack";
 import { navItems } from "@/content/navigation";
@@ -21,6 +22,8 @@ export default function HomePage() {
         <SelectedWork />
 
         <Capabilities />
+
+        <StackGrid />
 
         {navItems
           .filter((item) => item.id !== "work" && item.id !== "capabilities")
