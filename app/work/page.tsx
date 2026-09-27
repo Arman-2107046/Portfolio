@@ -135,13 +135,17 @@ export default async function WorkIndexPage(props: PageProps<"/work">) {
               </div>
             ) : (
               <ul className="mt-[var(--space-8)] grid gap-x-[var(--gutter)] gap-y-[var(--space-12)] md:grid-cols-2">
-                {visible.map((project) => (
+                {visible.map((project, index) => (
                   <li key={project.slug}>
                     <Link href={`/work/${project.slug}`} className="group block">
                       <div className="border-hairline overflow-hidden border">
                         <ProjectImage
                           image={project.cover}
                           sizes="(max-width: 767px) 100vw, 50vw"
+                          // The first cover is the LCP element on this route.
+                          // Left lazy it was discovered only after the whole
+                          // document had parsed, which is most of the 3.1s.
+                          priority={index === 0}
                         />
                       </div>
 

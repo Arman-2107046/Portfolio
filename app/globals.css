@@ -209,6 +209,11 @@
     *::before,
     *::after {
       animation-duration: 1ms !important;
+      /* The delay matters as much as the duration here: a staggered
+       * animation with `animation-fill-mode: both` holds its first frame
+       * until the delay elapses, so leaving the delay in place would keep
+       * the hero hidden for 380ms with nothing to show for it. */
+      animation-delay: 0ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 1ms !important;
       scroll-behavior: auto !important;
@@ -354,4 +359,123 @@
 @utility skeleton-block {
   background-color: var(--raised);
   border: var(--border-hair) solid var(--hairline);
+}
+
+/*
+ * The hero reveal, in CSS rather than in JavaScript.
+ *
+ * This was a Framer sequence first. The problem was not the animation, it was
+ * when it could start: Framer serialises the hidden variant as inline styles,
+ * so the headline sat at opacity 0 until the bundle had downloaded, parsed and
+ * hydrated. On a throttled mobile connection that pushed Largest Contentful
+ * Paint to 3.99s for a page whose LCP element is a line of text that was in the
+ * HTML all along.
+ *
+ * As CSS the reveal starts at first paint, needs no JavaScript at all, and the
+ * hero became a server component. Same 70ms stagger, same easing token, same
+ * clip-and-rise.
+ */
+@keyframes hero-rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Sits on the inner span; the parent clips it. --line is the line's index. */
+@utility hero-rise {
+  /* Shorter than --duration-reveal and with no base delay. The headline is the
+   * first thing painted, so every millisecond before it settles is a
+   * millisecond of Largest Contentful Paint. 70ms of stagger across four lines
+   * still reads as a sequence. */
+  animation: hero-rise var(--duration-slow) var(--ease-out) both;
+  animation-delay: calc(var(--line, 0) * var(--stagger));
+}
+
+@utility hero-fade {
+  animation: hero-fade var(--duration-slow) var(--ease-out) both;
+  animation-delay: calc(var(--line, 0) * var(--stagger));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Opacity only: no clipped element is allowed to travel. */
+  .hero-rise {
+    animation-name: hero-fade;
+  }
+}
+
+/*
+ * Scroll reveals. A class and a data attribute, toggled by an
+ * IntersectionObserver in components/motion/reveal.tsx — see the comment there
+ * for why this is not an animation library.
+ *
+ * No reduced-motion branch is needed: the base layer already collapses these
+ * transition durations to 1ms, and the opacity change carries the effect
+ * without the transform.
+ */
+@utility reveal-rise {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+
+  &[data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility reveal-fade {
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+
+  &[data-revealed="true"] {
+    opacity: 1;
+  }
+}
+
+/*
+ * The case-study reading indicator, driven by a scroll timeline rather than by
+ * JavaScript. Zero script, and it cannot fall out of sync with the scroll
+ * position because it *is* the scroll position.
+ *
+ * Gated behind @supports: where scroll-driven animation is unavailable the bar
+ * simply does not render, which is correct, because a progress bar stuck at
+ * zero is worse than no progress bar. It is orientation, not navigation, so
+ * nothing is lost. Removed entirely under reduced motion — a bar tracking
+ * scroll is continuous peripheral motion by definition, and there is no
+ * reduced version of it that is still the same feature.
+ */
+@keyframes reading-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@utility reading-progress {
+  display: none;
+
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      display: block;
+      transform-origin: left center;
+      animation: reading-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
 }

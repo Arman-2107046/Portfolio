@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import Lenis from "lenis";
+import type Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { DURATION } from "@/lib/motion";
 import { setLenis } from "./lenis-instance";
@@ -26,9 +26,20 @@ export function SmoothScroll() {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
     let lenis: Lenis | null = null;
 
-    function start() {
+    let cancelled = false;
+
+    /**
+     * Lenis is imported here rather than at module scope so it is a separate
+     * chunk fetched after the page is interactive. Smooth scrolling is an
+     * enhancement to something the browser already does; it has no business
+     * competing with the first paint for bandwidth or main-thread time.
+     */
+    async function start() {
       if (lenis) return;
-      lenis = new Lenis({
+      const { default: LenisClass } = await import("lenis");
+      if (cancelled || lenis) return;
+
+      lenis = new LenisClass({
         duration: DURATION.reveal,
         easing: easeOut,
         // Lenis handles in-page anchor clicks itself, so href="#work" keeps
@@ -75,6 +86,7 @@ export function SmoothScroll() {
     document.addEventListener("focusin", onFocusIn);
 
     return () => {
+      cancelled = true;
       query.removeEventListener("change", sync);
       document.removeEventListener("focusin", onFocusIn);
       stop();

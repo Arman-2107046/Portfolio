@@ -40,4 +40,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .process.txt
-process.txt
+process.txtlighthouse-results.json

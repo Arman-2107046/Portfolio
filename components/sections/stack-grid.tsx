@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useId } from "react";
+import { TooltipDismiss } from "@/components/ui/tooltip-dismiss";
 import { Container } from "@/components/layout/container";
 import { capabilities, capabilityLaneLabels } from "@/content/capabilities";
 import { stackItems } from "@/content/stack";
@@ -37,7 +35,9 @@ function Monogram({ name }: { name: string }) {
 }
 
 function StackEntry({ item }: { item: StackItem }) {
-  const noteId = useId();
+  // Derived from the name rather than useId: the names are unique, this is a
+  // server component, and a stable id keeps the markup diffable between builds.
+  const noteId = `stack-note-${item.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 
   return (
     // The group is the row, not the button, so the note stays open while the
@@ -86,26 +86,16 @@ function StackEntry({ item }: { item: StackItem }) {
   );
 }
 
+/**
+ * A server component. Note visibility is entirely CSS — :hover and
+ * :focus-within — so the only JavaScript this section needs is the Escape
+ * handler, which is isolated in TooltipDismiss rather than making the whole
+ * grid client.
+ */
 export function StackGrid() {
-  /**
-   * Escape dismisses an open note. Visibility is otherwise entirely CSS —
-   * :hover and :focus-within — so the only thing to clear is focus, and this
-   * component holds no state at all.
-   */
-  useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key !== "Escape") return;
-      const active = document.activeElement;
-      if (active instanceof HTMLElement && active.hasAttribute("aria-describedby")) {
-        active.blur();
-      }
-    }
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
-
   return (
     <section aria-labelledby="stack-heading" className="py-[var(--rhythm-base)]">
+      <TooltipDismiss />
       <Container>
         <div className="border-hairline flex items-baseline justify-between gap-[var(--space-4)] border-b pb-[var(--space-4)]">
           <h2 id="stack-heading" className="type-h1">
