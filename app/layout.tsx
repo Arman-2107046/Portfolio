@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { GridOverlay } from "@/components/dev/grid-overlay";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { JsonLd } from "@/components/seo/json-ld";
+import { site } from "@/content/site";
+import { baseUrl, personSchema, websiteSchema } from "@/lib/metadata";
 import { THEME_SCRIPT } from "@/lib/theme";
 import "./globals.css";
 
@@ -38,9 +41,29 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Arman Rahman Rafi — Full-Stack Web Developer",
-  description:
-    "Full-stack web developer in Khulna, Bangladesh. One person owns the system from database to conversion event.",
+  // Every relative URL in metadata — canonical, OG, Twitter — resolves against
+  // this, so the domain is stated once for the whole site.
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: `${site.name} — ${site.role}`,
+    // Case studies and the archive supply their own name; this appends the
+    // owner so a shared tab is attributable on its own.
+    template: `%s — ${site.name}`,
+  },
+  description: site.metaDescription,
+  authors: [{ name: site.name, url: baseUrl }],
+  creator: site.name,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    locale: "en",
+    url: baseUrl,
+    title: `${site.name} — ${site.role}`,
+    description: site.metaDescription,
+  },
+  twitter: { card: "summary_large_image" },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -59,6 +82,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
          * document has painted once, which is the white flash this prevents.
          */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+
+        {/* Person and WebSite describe the site itself, so they belong on
+            every route rather than being repeated per page. */}
+        <JsonLd schema={personSchema()} />
+        <JsonLd schema={websiteSchema()} />
       </head>
       <body>
         <SmoothScroll />

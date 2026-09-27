@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/chrome/site-header";
 import { Container } from "@/components/layout/container";
 import { ProjectImage } from "@/components/ui/project-image";
 import { isLane, laneLabels, lanes, projects } from "@/content/projects";
+import { buildMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/cn";
 
 /**
@@ -19,6 +20,13 @@ import { cn } from "@/lib/cn";
  * four things that would each have needed separate handling had this been
  * useState.
  */
+export const metadata = buildMetadata({
+  title: "All work",
+  description:
+    "Six shipped platforms: e-commerce and server-side attribution, a made-to-measure configurator, a CMS-driven corporate site, a self-hosted SEO-first store, and an NGO information architecture.",
+  path: "/work",
+});
+
 export default async function WorkIndexPage(props: PageProps<"/work">) {
   const params = await props.searchParams;
   const raw = params.lane;

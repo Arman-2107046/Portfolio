@@ -100,6 +100,39 @@ for (const [themeName, theme] of [
   }
 }
 
+/*
+ * lib/og.tsx is the one file that legitimately repeats colour values: Satori
+ * renders outside the browser and cannot resolve a CSS custom property. Since
+ * it cannot reference the token layer, it is checked against it instead, so the
+ * link preview cannot quietly drift away from the site it represents.
+ */
+const OG_PATH = join(root, "lib/og.tsx");
+const ogSource = await readFile(OG_PATH, "utf8");
+
+const OG_CONSTANTS = [
+  ["INK", "ink"],
+  ["INK_MUTED", "ink-muted"],
+  ["CANVAS", "canvas"],
+  ["HAIRLINE", "hairline"],
+];
+
+console.log("\nlib/og.tsx against the light theme");
+for (const [constant, token] of OG_CONSTANTS) {
+  const match = ogSource.match(new RegExp(`const ${constant} = "(#[0-9a-fA-F]{3,8})"`));
+  const expected = light[token];
+  if (!match) {
+    console.log(`  FAIL  ${constant} not found`);
+    failures += 1;
+    continue;
+  }
+  const actual = match[1].toLowerCase();
+  const ok = actual === expected?.toLowerCase();
+  if (!ok) failures += 1;
+  console.log(
+    `  ${ok ? "pass" : "FAIL"}  ${constant} = ${actual}  (--${token} is ${expected})`,
+  );
+}
+
 if (failures > 0) {
   console.error(`\n${failures} contrast check(s) failed.`);
   process.exit(1);

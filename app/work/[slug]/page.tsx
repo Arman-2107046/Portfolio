@@ -6,7 +6,9 @@ import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { ProjectImage } from "@/components/ui/project-image";
 import { ReadingProgress } from "@/components/ui/reading-progress";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getAdjacentProjects, getProject, projects } from "@/content/projects";
+import { buildMetadata, creativeWorkSchema } from "@/lib/metadata";
 import type { Project } from "@/content/types";
 
 /**
@@ -72,6 +74,21 @@ function Block({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
+export async function generateMetadata(props: PageProps<"/work/[slug]">) {
+  const { slug } = await props.params;
+  const project = getProject(slug);
+  if (!project) return {};
+
+  return buildMetadata({
+    title: project.name,
+    // The headline is the argument of the case study, so it is also the
+    // description — a search result and the page make the same claim.
+    description: `${project.headline}. ${project.summary}`,
+    path: `/work/${project.slug}`,
+    ogPath: `/work/${project.slug}/opengraph-image`,
+  });
+}
+
 export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
   const { slug } = await props.params;
   const project = getProject(slug);
@@ -81,6 +98,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
 
   return (
     <>
+      <JsonLd schema={creativeWorkSchema(project)} />
       <ReadingProgress />
       <SiteHeader inPageNav={false} hasHero={false} />
 

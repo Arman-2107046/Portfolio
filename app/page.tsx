@@ -7,6 +7,14 @@ import { Hero } from "@/components/sections/hero";
 import { Process } from "@/components/sections/process";
 import { SelectedWork } from "@/components/sections/selected-work";
 import { StackGrid } from "@/components/sections/stack-grid";
+import { site } from "@/content/site";
+import { buildMetadata } from "@/lib/metadata";
+
+export const metadata = buildMetadata({
+  title: `${site.name} — ${site.role}`,
+  description: site.metaDescription,
+  path: "/",
+});
 
 export default function HomePage() {
   return (

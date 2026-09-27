@@ -55,3 +55,4 @@ make the strongest sentences on the site, if they exist:
 | 20 | `RESEND_API_KEY` and the from/to addresses for the contact form. Until set, the server action fails closed and the UI shows the email fallback. |
 | 21 | GTM container ID for `NEXT_PUBLIC_GTM_ID`. Analytics is inert without it. |
 | 22 | Vercel project and domain, or the VPS target if self-hosting per `DEPLOY.md`. |
+| 23 | Once live, run the structured data through Google's Rich Results Test and the OG cards through a link-preview debugger. Both need a public URL, so neither could be run from the build machine. The JSON-LD and the rendered cards were verified locally against `next start`: Person (with `alumniOf` KUET), WebSite on every route, CreativeWork on each case study, unique canonicals, and both card images rendering in the site's own typefaces. |
