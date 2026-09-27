@@ -128,6 +128,9 @@ export type Site = {
   location: string;
   timeZone: string;
   availability: Availability;
+  /** First person, three short paragraphs. See the About section. */
+  about: string[];
+  portrait: ProjectImage;
   socials: SocialLink[];
   /**
    * The canonical origin. Everything — metadata, OG images, sitemap, robots,

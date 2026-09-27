@@ -44,6 +44,19 @@ export const site: Site = {
 
   baseUrl: "https://armanrahmanrafi.com",
 
+  about: [
+    "I work on one or two builds at a time. The reason is not availability, it is that the interesting problems in this work are rarely in the feature list — they are in the schema someone chose in week one, or in the deploy that cannot be rolled back, and finding those takes uninterrupted attention rather than a slot in a rotation.",
+    "I am studying computer science and engineering at KUET, which mostly means I am being taught why the things I had already been doing for clients work, and occasionally that they do not. The overlap between the two is smaller than I expected and more useful than I expected.",
+    "The work I like most is the kind where the brief is wrong. A client asks for a redesign and the problem is the information architecture; a client asks for faster checkout and the problem is that the conversion data has been lying for a year. Saying so early is usually the most valuable thing I do on a project, and it is also the part that has to be earned before anyone believes it.",
+  ],
+
+  portrait: {
+    src: "/portrait.png",
+    alt: "Arman Rahman Rafi",
+    width: 1000,
+    height: 1250,
+  },
+
   metaDescription:
     "Full-stack web developer in Khulna, Bangladesh. I design the schema, write the application, provision the server, and wire the measurement — so one person owns the system end to end.",
 };

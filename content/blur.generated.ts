@@ -6,6 +6,8 @@
 //   npx tsx scripts/generate-placeholders.mts
 
 export const blurData: Record<string, string> = {
+  "/portrait.png":
+    "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAAAQAwCdASoQABQAPt1apkyopSOiMAgBEBuJaQAAetGJiaAA/vCmyqgksIj7SQYIsNVEpnKOgQAAAA==",
   "/work/amidx-technologies/cover.png":
     "data:image/webp;base64,UklGRigAAABXRUJQVlA4IBwAAAAwAQCdASoQAAoAAwBSJaQAA3AA/vTbzcfZAAAA",
   "/work/amidx-technologies/block-editor.png":

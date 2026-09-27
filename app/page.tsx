@@ -1,7 +1,9 @@
 import { SiteFooter } from "@/components/chrome/site-footer";
 import { SiteHeader } from "@/components/chrome/site-header";
+import { About } from "@/components/sections/about";
 import { Capabilities } from "@/components/sections/capabilities";
 import { Hero } from "@/components/sections/hero";
+import { Process } from "@/components/sections/process";
 import { SelectedWork } from "@/components/sections/selected-work";
 import { StackGrid } from "@/components/sections/stack-grid";
 import { Section } from "@/components/layout/section";
@@ -25,8 +27,12 @@ export default function HomePage() {
 
         <StackGrid />
 
+        <Process />
+
+        <About />
+
         {navItems
-          .filter((item) => item.id !== "work" && item.id !== "capabilities")
+          .filter((item) => item.id === "contact")
           .map((item) => (
             <Section key={item.id} id={item.id} rule rhythm="loose">
               <Stack gap={4}>

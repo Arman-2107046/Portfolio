@@ -18,6 +18,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 import { projects } from "../content/projects";
+import { site } from "../content/site";
 import type { ProjectImage } from "../content/types";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -94,20 +95,29 @@ const blurMap: Record<string, string> = {};
 let generated = 0;
 let kept = 0;
 
-for (const project of projects) {
-  const images: { image: ProjectImage; role: string }[] = [
-    { image: project.cover, role: "cover" },
-    ...project.gallery.map((image) => ({ image, role: "gallery" })),
-  ];
+type Declared = { image: ProjectImage; role: string; label: string };
 
-  for (const { image, role } of images) {
+const declared: Declared[] = [
+  { image: site.portrait, role: "portrait", label: site.name },
+  ...projects.flatMap((project): Declared[] => [
+    { image: project.cover, role: "cover", label: project.name },
+    ...project.gallery.map((image) => ({
+      image,
+      role: "gallery",
+      label: project.name,
+    })),
+  ]),
+];
+
+{
+  for (const { image, role, label } of declared) {
     const filePath = join(PUBLIC_DIR, image.src);
     await mkdir(dirname(filePath), { recursive: true });
 
     if (await exists(filePath)) {
       kept += 1;
     } else {
-      const png = await sharp(schematic(image, project.name, role))
+      const png = await sharp(schematic(image, label, role))
         .png({ compressionLevel: 9 })
         .toBuffer();
       await writeFile(filePath, png);

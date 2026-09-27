@@ -37,7 +37,7 @@ make the strongest sentences on the site, if they exist:
 | # | Need | Current state |
 | - | ---- | ------------- |
 | 14 | Real screenshots for all six projects | Generated placeholder frames at the correct aspect ratio sit in `public/work/<slug>/`. They are clearly schematic, not fake screenshots. Replace the files, keep the names and dimensions, and no code changes. |
-| 15 | Portrait photograph | The About section has a portrait slot with a placeholder at the right ratio. |
+| 15 | Portrait photograph | The About section renders `site.portrait`. A schematic placeholder sits at `public/portrait.png` at 1000x1250 (4:5). Replace the file at that path and size, then re-run `npm run media` to regenerate its blur data. |
 | 16 | Live URLs | Only those confidently known are linked. Any project without a confirmed public URL omits the live link rather than guessing. |
 | 17 | CV / résumé PDF | The `cv_download` analytics event is specified but no file exists yet. Drop it at `public/arman-rahman-rafi-cv.pdf`. |
 
