@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { GridOverlay } from "@/components/dev/grid-overlay";
 import "./globals.css";
 
 /*
@@ -47,7 +48,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-theme="light"
       className={`${instrumentSans.variable} ${instrumentSerif.variable} ${plexMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        {process.env.NODE_ENV === "development" ? <GridOverlay /> : null}
+      </body>
     </html>
   );
 }

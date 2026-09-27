@@ -94,6 +94,13 @@
   --measure: 68ch; /* running prose */
   --measure-lead: 56ch; /* lead paragraphs */
 
+  /* ---- Vertical rhythm. The <Section> primitive is the only consumer of
+   * these; no component sets its own top or bottom padding. Fluid, so the
+   * cadence compresses on a phone instead of stepping at a breakpoint. ---- */
+  --rhythm-tight: clamp(3rem, 6vw, 5rem); /*  48 → 80px  */
+  --rhythm-base: clamp(4rem, 9vw, 8rem); /*   64 → 128px */
+  --rhythm-loose: clamp(6rem, 12vw, 10rem); /* 96 → 160px */
+
   /* ---- Type scale. Fluid 375px → 1440px, no breakpoint jumps. ---- */
   --text-display-xl: clamp(2.75rem, 9.2vw, 7.5rem);
   --text-display-l: clamp(2rem, 5vw, 3.75rem);
