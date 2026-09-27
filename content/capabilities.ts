@@ -1,4 +1,16 @@
-import type { Capability, ProcessStep } from "./types";
+import type { Capability, CapabilityLane, ProcessStep } from "./types";
+
+/**
+ * Display names for the lanes. Kept beside the data rather than derived from
+ * the slug, because "data-infrastructure" does not title-case into the phrase
+ * anyone actually says.
+ */
+export const capabilityLaneLabels: Record<CapabilityLane, string> = {
+  "product-engineering": "Product engineering",
+  "data-infrastructure": "Data & infrastructure",
+  commerce: "Commerce",
+  measurement: "Measurement",
+};
 
 /**
  * Four lanes. Each title states what the client ends up with, in words that

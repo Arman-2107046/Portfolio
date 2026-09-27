@@ -1,5 +1,6 @@
 import { SiteFooter } from "@/components/chrome/site-footer";
 import { SiteHeader } from "@/components/chrome/site-header";
+import { Capabilities } from "@/components/sections/capabilities";
 import { Hero } from "@/components/sections/hero";
 import { SelectedWork } from "@/components/sections/selected-work";
 import { Section } from "@/components/layout/section";
@@ -19,8 +20,10 @@ export default function HomePage() {
 
         <SelectedWork />
 
+        <Capabilities />
+
         {navItems
-          .filter((item) => item.id !== "work")
+          .filter((item) => item.id !== "work" && item.id !== "capabilities")
           .map((item) => (
             <Section key={item.id} id={item.id} rule rhythm="loose">
               <Stack gap={4}>
