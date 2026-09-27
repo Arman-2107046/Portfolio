@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { ThemeToggle } from "@/components/chrome/theme-toggle";
 import type { ReactNode } from "react";
 
@@ -189,9 +188,8 @@ function Swatches({ theme }: { theme: "light" | "dark" }) {
 }
 
 export default function StyleguidePage() {
-  // Dev-only surface: it documents the system and is not part of the site.
-  if (process.env.NODE_ENV === "production") notFound();
-
+  // Kept out of production by proxy.ts, which can answer with a real 404
+  // status. See the comment there for why the in-page guard was not enough.
   return (
     <main
       id="top"

@@ -328,3 +328,30 @@
    * needs a nudge to sit on the same baseline optically. */
   letter-spacing: -0.005em;
 }
+
+/*
+ * A skeleton that does not appear unless the wait is real.
+ *
+ * Route transitions on this site are mostly instant, because most routes are
+ * prerendered. A loading state that renders immediately would therefore flash
+ * for 80ms and read as a fault. This holds the skeleton at opacity 0 for
+ * 400ms and only then reveals it, so a fast navigation shows nothing at all
+ * and a genuinely slow one still gets a designed answer.
+ *
+ * The animation is opacity-only, so it needs no reduced-motion variant.
+ */
+@keyframes appear {
+  to {
+    opacity: 1;
+  }
+}
+
+@utility appear-delayed {
+  opacity: 0;
+  animation: appear 120ms linear 400ms forwards;
+}
+
+@utility skeleton-block {
+  background-color: var(--raised);
+  border: var(--border-hair) solid var(--hairline);
+}

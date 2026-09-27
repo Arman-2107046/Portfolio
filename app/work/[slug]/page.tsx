@@ -9,6 +9,13 @@ import { ReadingProgress } from "@/components/ui/reading-progress";
 import { getAdjacentProjects, getProject, projects } from "@/content/projects";
 import type { Project } from "@/content/types";
 
+/**
+ * The six slugs are the complete set, so anything else is a 404 at the routing
+ * layer rather than a page that renders and then calls notFound(). It also
+ * means no case-study URL is ever server-rendered on demand.
+ */
+export const dynamicParams = false;
+
 /** All six routes are known at build time, so all six are static. */
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
