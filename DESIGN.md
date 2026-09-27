@@ -151,17 +151,17 @@ No illustration, no gradient, no canvas. The LCP element is the headline text.
 ### Work index
 
 ```
-  selected work                                        six projects
+  Selected work                                        six projects
   ──────────────────────────────────────────────────────────────────
-  01  AmidX Technologies                                       2025
-      Corporate platform — a CMS that cannot break the design
-      REACT   LARAVEL   TAILWIND
+  AmidX Technologies                                           2025
+  Corporate platform — a CMS that cannot break the design
+  REACT   LARAVEL   TAILWIND
   ──────────────────────────────────────────────────────────────────
-  02  Sooth Bangladesh          ┌──────────────────┐         2025
-      E-commerce — attribution  │                  │
-      LARAVEL  REACT  CAPI      │  cover, follows  │
+  Sooth Bangladesh              ┌──────────────────┐         2025
+  E-commerce — attribution      │                  │
+  LARAVEL  REACT  GA4           │  cover, follows  │
   ──────────────────────────────│  cursor, damped  │──────────────
-  03  Hockerty Suit Designer    └──────────────────┘         2024
+  Hockerty Suit Designer        └──────────────────┘         2024
 ```
 
 Rows, not cards. The whole row is one link. Imagery is absent until the visitor
@@ -271,6 +271,7 @@ no waving-hand hero, no proficiency bars or ratings, no coloured vendor logos
 (all stack marks are monochrome), no stock photography, nothing centred as a
 page-level default, no repeated identical soft-shadow cards, no tracked-out caps
 eyebrow above every heading, no middle-dot meta strings as a pattern, no arrow
-glued to every label, no decorative 01/02/03 on non-sequential content (the work
-index is an ordered list and Process is an actual sequence — numbering appears
-only there), no cream-and-terracotta, no near-black-and-acid-green.
+glued to every label, no decorative 01/02/03 anywhere except Process, which is a
+real sequence — the work index is ordered strongest-first but that is a ranking,
+not a sequence, so an earlier draft that numbered its rows was cut; no
+cream-and-terracotta, no near-black-and-acid-green.
