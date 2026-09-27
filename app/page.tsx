@@ -1,5 +1,6 @@
 import { SiteFooter } from "@/components/chrome/site-footer";
 import { SiteHeader } from "@/components/chrome/site-header";
+import { Hero } from "@/components/sections/hero";
 import { Section } from "@/components/layout/section";
 import { Stack } from "@/components/layout/stack";
 import { navItems } from "@/content/navigation";
@@ -10,15 +11,7 @@ export default function HomePage() {
       <SiteHeader />
 
       <main id="main">
-        <Section rhythm="loose">
-          <Stack gap={4}>
-            <h1 className="type-h1">Hero placeholder</h1>
-            <p className="measure type-body text-ink-muted">
-              The hero lands in step 12. The sentinel below is what the header watches to
-              decide when to stop being transparent.
-            </p>
-          </Stack>
-        </Section>
+        <Hero />
 
         {/* Zero-height marker at the end of the hero. See SiteHeader. */}
         <div id="header-sentinel" aria-hidden="true" />

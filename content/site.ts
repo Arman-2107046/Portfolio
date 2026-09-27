@@ -13,8 +13,8 @@ export const site: Site = {
   headline: [
     { text: "I build the" },
     { text: "whole system," },
-    { text: "not the", accentWord: "screens" },
-    { text: "only." },
+    { text: "not just the" },
+    { text: "", accentWord: "screens." },
   ],
 
   tagline:
