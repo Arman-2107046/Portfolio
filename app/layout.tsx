@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { Analytics } from "@/components/analytics/analytics";
 import { GridOverlay } from "@/components/dev/grid-overlay";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -102,6 +103,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <SmoothScroll />
         {children}
+        <Analytics />
         {process.env.NODE_ENV === "development" ? <GridOverlay /> : null}
       </body>
     </html>

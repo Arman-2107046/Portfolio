@@ -6,6 +6,7 @@ import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { ProjectImage } from "@/components/ui/project-image";
 import { ReadingProgress } from "@/components/ui/reading-progress";
+import { CaseStudyView } from "@/components/analytics/case-study-view";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getAdjacentProjects, getProject, projects } from "@/content/projects";
 import { buildMetadata, creativeWorkSchema } from "@/lib/metadata";
@@ -99,6 +100,7 @@ export default async function CaseStudyPage(props: PageProps<"/work/[slug]">) {
   return (
     <>
       <JsonLd schema={creativeWorkSchema(project)} />
+      <CaseStudyView slug={project.slug} name={project.name} lane={project.lane} />
       <ReadingProgress />
       <SiteHeader inPageNav={false} hasHero={false} />
 

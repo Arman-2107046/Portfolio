@@ -1,6 +1,13 @@
 "use client";
 
-import { useActionState, useId, useState, type ReactNode } from "react";
+import {
+  useActionState,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { Container } from "@/components/layout/container";
 import { CopyEmail } from "@/components/ui/copy-email";
 import { site } from "@/content/site";
@@ -13,6 +20,7 @@ import {
   validateField,
   type ContactFieldName,
 } from "@/lib/contact-schema";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 
 const INITIAL: ContactState = { status: "idle" };
@@ -79,6 +87,27 @@ export function Contact() {
 
   const errors: FieldErrors = { ...state.fieldErrors, ...touchedErrors };
   const values = state.values ?? EMPTY_CONTACT;
+
+  /**
+   * The submit event is emitted from the resolved server state rather than
+   * from the click, so "submitted" means the server actually answered. Firing
+   * on click would count attempts that never reached anything as conversions.
+   */
+  const reported = useRef<ContactState["status"] | null>(null);
+  useEffect(() => {
+    if (state.status === "idle") return;
+    if (reported.current === state.status) return;
+    reported.current = state.status;
+
+    track({
+      name: "contact_submit",
+      params: {
+        project_type: state.values?.projectType ?? "",
+        budget_range: state.values?.budget ?? "",
+        outcome: state.status === "success" ? "success" : "error",
+      },
+    });
+  }, [state]);
 
   function controlProps(field: ContactFieldName) {
     const id = `${formId}-${field}`;

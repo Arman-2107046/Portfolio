@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 
 /**
@@ -11,7 +12,7 @@ import { cn } from "@/lib/cn";
  * appears exactly where the attention already is. The button is sized to its
  * widest label so the confirmation cannot reflow the line it sits on.
  */
-export function CopyEmail() {
+export function CopyEmail({ location = "contact" }: { location?: "contact" | "footer" }) {
   const [copied, setCopied] = useState(false);
   const timeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -21,6 +22,7 @@ export function CopyEmail() {
     try {
       await navigator.clipboard.writeText(site.email);
       setCopied(true);
+      track({ name: "copy_email", params: { location } });
       clearTimeout(timeout.current);
       timeout.current = setTimeout(() => setCopied(false), 2400);
     } catch {
