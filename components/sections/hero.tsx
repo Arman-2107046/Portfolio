@@ -23,12 +23,21 @@ export function Hero() {
     <section id="hero" aria-labelledby="hero-headline">
       <Container>
         <div className="pt-[var(--space-16)] pb-[var(--rhythm-base)] md:pt-[var(--space-24)]">
-          {/* Availability. The accent draws the dot; it fills nothing. */}
+          {/*
+           * Availability. The accent draws the dot; it fills nothing.
+           *
+           * The Chanel rule, applied here: this was a bordered, rounded-full
+           * pill. It was the only rounded container on a site built entirely
+           * from square hairlines, and its shape was doing nothing the accent
+           * dot was not already doing — it was there to make the line look
+           * like a badge, which is a pattern from the kind of site this one is
+           * trying not to be. The border and the pill are gone; the dot and the
+           * words remain, and the hero is quieter for it.
+           */}
           <p
             className={cn(
-              "type-mono text-ink-muted border-edge hero-fade",
-              "inline-flex items-center gap-[var(--space-2)] rounded-full border",
-              "px-[var(--space-3)] py-[var(--space-1)]",
+              "type-mono text-ink-muted hero-fade",
+              "inline-flex items-center gap-[var(--space-2)]",
             )}
           >
             <span

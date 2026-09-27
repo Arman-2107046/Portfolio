@@ -218,7 +218,8 @@ at a fixed ratio instead, because there is no cursor to follow.
    single cadence from top to bottom.
 5. Exactly one orchestrated animation exists on the site — the hero's
    line-by-line mask reveal — and everything below it only ever fades, so motion
-   stays a statement rather than a texture.
+   stays a statement rather than a texture. It is a CSS animation, so it starts
+   at first paint rather than waiting for a bundle.
 
 ---
 
@@ -255,6 +256,13 @@ button is the tell of a generated page. Restricting the accent to 1px-scale mark
 thing: _this is a control, or this is the current position._ Filled controls
 became `ink`-on-`canvas` inverted, which is both higher contrast (19.17:1) and
 quieter.
+
+**R5 — The availability pill lost its border, at the final critique.** It was a
+bordered, rounded-full pill: the only rounded container on a site built entirely
+from square hairlines and rules. The shape was doing nothing the accent dot was
+not already doing — it was there to make the line read as a badge, which is a
+pattern borrowed from exactly the kind of site this one is trying not to be. The
+dot and the words remain.
 
 **R4 — Caption size: 13px → 14px.** The mono rail looked more precise at 13px,
 which is exactly the trap. 14px is the floor for the whole site, the rail

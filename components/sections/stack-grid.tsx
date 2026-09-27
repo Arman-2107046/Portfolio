@@ -1,5 +1,5 @@
 import { TooltipDismiss } from "@/components/ui/tooltip-dismiss";
-import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
 import { capabilities, capabilityLaneLabels } from "@/content/capabilities";
 import { stackItems } from "@/content/stack";
 import type { StackItem } from "@/content/types";
@@ -100,45 +100,43 @@ function StackEntry({ item }: { item: StackItem }) {
  */
 export function StackGrid() {
   return (
-    <section aria-labelledby="stack-heading" className="py-[var(--rhythm-base)]">
+    <Section ariaLabelledBy="stack-heading">
       <TooltipDismiss />
-      <Container>
-        <div className="border-hairline flex items-baseline justify-between gap-[var(--space-4)] border-b pb-[var(--space-4)]">
-          <h2 id="stack-heading" className="type-h1">
-            The tools underneath
-          </h2>
-          <p className="type-mono text-ink-muted shrink-0">{stackItems.length} in use</p>
-        </div>
+      <div className="border-hairline flex items-baseline justify-between gap-[var(--space-4)] border-b pb-[var(--space-4)]">
+        <h2 id="stack-heading" className="type-h1">
+          The tools underneath
+        </h2>
+        <p className="type-mono text-ink-muted shrink-0">{stackItems.length} in use</p>
+      </div>
 
-        <p className="measure type-body text-ink-muted mt-[var(--space-6)]">
-          Point at any of these, or tab to it, for a line on how I actually use it.
-        </p>
+      <p className="measure type-body text-ink-muted mt-[var(--space-6)]">
+        Point at any of these, or tab to it, for a line on how I actually use it.
+      </p>
 
-        {/* Nothing here animates on its own. Every state change is one the
+      {/* Nothing here animates on its own. Every state change is one the
             reader asked for. */}
-        <div className="mt-[var(--space-10)] flex flex-col gap-[var(--space-10)]">
-          {capabilities.map((capability) => {
-            const items = stackItems.filter((item) => item.lane === capability.lane);
+      <div className="mt-[var(--space-10)] flex flex-col gap-[var(--space-10)]">
+        {capabilities.map((capability) => {
+          const items = stackItems.filter((item) => item.lane === capability.lane);
 
-            return (
-              <div
-                key={capability.lane}
-                className="border-hairline grid gap-x-[var(--gutter)] gap-y-[var(--space-4)] border-t pt-[var(--space-6)] lg:grid-cols-[10rem_minmax(0,1fr)]"
-              >
-                <h3 className="type-mono text-ink-muted lg:pt-[var(--space-2)]">
-                  {capabilityLaneLabels[capability.lane]}
-                </h3>
+          return (
+            <div
+              key={capability.lane}
+              className="border-hairline grid gap-x-[var(--gutter)] gap-y-[var(--space-4)] border-t pt-[var(--space-6)] lg:grid-cols-[10rem_minmax(0,1fr)]"
+            >
+              <h3 className="type-mono text-ink-muted lg:pt-[var(--space-2)]">
+                {capabilityLaneLabels[capability.lane]}
+              </h3>
 
-                <ul className="grid grid-cols-1 gap-x-[var(--space-4)] sm:grid-cols-2 lg:grid-cols-3">
-                  {items.map((item) => (
-                    <StackEntry key={item.name} item={item} />
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
-      </Container>
-    </section>
+              <ul className="grid grid-cols-1 gap-x-[var(--space-4)] sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((item) => (
+                  <StackEntry key={item.name} item={item} />
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </Section>
   );
 }

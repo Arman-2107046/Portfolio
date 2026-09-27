@@ -15,8 +15,8 @@ studies.
 | Framework  | Next.js 16 (App Router), React 19             |
 | Language   | TypeScript, `strict` + `noUncheckedIndexedAccess` |
 | Styling    | Tailwind CSS v4, tokens declared in `@theme`  |
-| Motion     | Framer Motion, one shared variant vocabulary  |
-| Scroll     | Lenis, disabled under `prefers-reduced-motion` |
+| Motion     | CSS, with Framer Motion for the one damped animation |
+| Scroll     | Lenis, lazily imported, never constructed under `prefers-reduced-motion` |
 | Fonts      | `next/font`, self-hosted and subset           |
 | Content    | Typed modules under `content/` — no CMS       |
 | Mail       | Server action + Resend                        |
@@ -42,11 +42,31 @@ npm run gate         # lint && typecheck && build
 
 ```
 app/                  routes, layouts, and route-level states
-  styleguide/         dev-only token and type specimen
-components/           UI, grouped by role
+  styleguide/         dev-only token and type specimen (404s in production)
+components/
+  analytics/          GTM loading, consent, event islands
+  chrome/             header, footer, theme toggle
+  layout/             Container and Section — the only owners of page edges
+                      and vertical rhythm
+  motion/             scroll reveal, smooth scroll
+  sections/           one module per homepage section
+  ui/                 shared pieces
 content/              typed content modules — the only place copy lives
-lib/                  motion vocabulary, utilities, server actions
+lib/                  tokens-adjacent helpers, metadata, server actions
 public/work/<slug>/   per-project imagery
+scripts/              the audits, all runnable locally and in CI
+```
+
+## Checking it
+
+```bash
+npm run gate              # lint, typecheck, contrast, content, build
+
+npx next start --port 3130
+npm run audit:a11y -- http://localhost:3130         # axe, every route, both themes
+npm run audit:keyboard -- http://localhost:3130     # focus, trap, landmarks
+npm run audit:responsive -- http://localhost:3130   # 320px to 2560px
+npm run audit:lighthouse -- http://localhost:3130   # mobile, median of 3
 ```
 
 ## Adding a project

@@ -8,7 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
 import { CopyEmail } from "@/components/ui/copy-email";
 import { site } from "@/content/site";
 import { submitContact, type ContactState } from "@/lib/actions/contact";
@@ -149,163 +149,153 @@ export function Contact() {
   }
 
   return (
-    <section
-      id="contact"
-      aria-labelledby="contact-heading"
-      className="py-[var(--rhythm-base)]"
-    >
-      <Container>
-        <div className="border-hairline border-b pb-[var(--space-4)]">
-          <h2 id="contact-heading" className="type-display-l measure-lead">
-            Tell me what you are trying to build.
-          </h2>
-        </div>
+    <Section id="contact" ariaLabelledBy="contact-heading">
+      <div className="border-hairline border-b pb-[var(--space-4)]">
+        <h2 id="contact-heading" className="type-display-l measure-lead">
+          Tell me what you are trying to build.
+        </h2>
+      </div>
 
-        <div className="mt-[var(--space-10)] grid gap-[var(--space-12)] lg:grid-cols-[22rem_minmax(0,1fr)] lg:gap-[var(--space-16)]">
-          <div>
-            <p className="type-mono text-ink-muted">Or just email</p>
+      <div className="mt-[var(--space-10)] grid gap-[var(--space-12)] lg:grid-cols-[22rem_minmax(0,1fr)] lg:gap-[var(--space-16)]">
+        <div>
+          <p className="type-mono text-ink-muted">Or just email</p>
 
-            <a
-              href={`mailto:${site.email}`}
-              className="type-h2 tap-target decoration-accent mt-[var(--space-3)] underline decoration-[1px] underline-offset-[6px]"
-            >
-              {site.email}
-            </a>
+          <a
+            href={`mailto:${site.email}`}
+            className="type-h2 tap-target decoration-accent mt-[var(--space-3)] underline decoration-[1px] underline-offset-[6px]"
+          >
+            {site.email}
+          </a>
 
-            <div className="mt-[var(--space-4)]">
-              <CopyEmail />
-            </div>
-
-            <p className="measure type-body text-ink-muted mt-[var(--space-6)]">
-              {site.availability.detail}
-            </p>
+          <div className="mt-[var(--space-4)]">
+            <CopyEmail />
           </div>
 
-          <div>
-            {/*
-             * Rendered even when empty, so the live region exists before its
-             * content arrives — a region added at the same moment as its text
-             * frequently goes unannounced.
-             */}
-            <p
-              role="status"
-              aria-live="polite"
-              className={cn(
-                "type-body",
-                state.message ? "mb-[var(--space-6)] block" : "sr-only",
-              )}
-            >
-              {state.message}
-            </p>
+          <p className="measure type-body text-ink-muted mt-[var(--space-6)]">
+            {site.availability.detail}
+          </p>
+        </div>
 
-            {state.status === "success" ? (
-              <div className="border-hairline border-t pt-[var(--space-6)]">
-                <p className="type-h3">Message received.</p>
-                <p className="measure type-body text-ink-muted mt-[var(--space-3)]">
-                  If it has not been answered within a working day, something ate it. Send
-                  the same note to{" "}
-                  <a
-                    href={`mailto:${site.email}`}
-                    className="decoration-accent underline decoration-[1px] underline-offset-4"
-                  >
-                    {site.email}
-                  </a>
-                  .
-                </p>
-              </div>
-            ) : (
-              <form action={formAction} noValidate>
-                {/* The honeypot: out of sight, out of the accessibility tree and
+        <div>
+          {/*
+           * Rendered even when empty, so the live region exists before its
+           * content arrives — a region added at the same moment as its text
+           * frequently goes unannounced.
+           */}
+          <p
+            role="status"
+            aria-live="polite"
+            className={cn(
+              "type-body",
+              state.message ? "mb-[var(--space-6)] block" : "sr-only",
+            )}
+          >
+            {state.message}
+          </p>
+
+          {state.status === "success" ? (
+            <div className="border-hairline border-t pt-[var(--space-6)]">
+              <p className="type-h3">Message received.</p>
+              <p className="measure type-body text-ink-muted mt-[var(--space-3)]">
+                If it has not been answered within a working day, something ate it. Send
+                the same note to{" "}
+                <a
+                  href={`mailto:${site.email}`}
+                  className="decoration-accent underline decoration-[1px] underline-offset-4"
+                >
+                  {site.email}
+                </a>
+                .
+              </p>
+            </div>
+          ) : (
+            <form action={formAction} noValidate>
+              {/* The honeypot: out of sight, out of the accessibility tree and
                     out of the tab order. A person cannot reach it, so anything
                     in it did not come from one. */}
-                <div aria-hidden="true" className="absolute left-[-9999px]">
-                  <label htmlFor={`${formId}-${HONEYPOT_FIELD}`}>Company</label>
+              <div aria-hidden="true" className="absolute left-[-9999px]">
+                <label htmlFor={`${formId}-${HONEYPOT_FIELD}`}>Company</label>
+                <input
+                  id={`${formId}-${HONEYPOT_FIELD}`}
+                  name={HONEYPOT_FIELD}
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="grid gap-[var(--space-6)] sm:grid-cols-2">
+                <Field id={`${formId}-name`} label="Your name" error={errors.name}>
+                  <input {...controlProps("name")} type="text" autoComplete="name" />
+                </Field>
+
+                <Field id={`${formId}-email`} label="Email" error={errors.email}>
                   <input
-                    id={`${formId}-${HONEYPOT_FIELD}`}
-                    name={HONEYPOT_FIELD}
-                    type="text"
-                    tabIndex={-1}
-                    autoComplete="off"
+                    {...controlProps("email")}
+                    type="email"
+                    autoComplete="email"
+                    // Allowed, because it is a format hint rather than a
+                    // stand-in for the label above it.
+                    placeholder="name@example.com"
                   />
-                </div>
+                </Field>
 
-                <div className="grid gap-[var(--space-6)] sm:grid-cols-2">
-                  <Field id={`${formId}-name`} label="Your name" error={errors.name}>
-                    <input {...controlProps("name")} type="text" autoComplete="name" />
-                  </Field>
-
-                  <Field id={`${formId}-email`} label="Email" error={errors.email}>
-                    <input
-                      {...controlProps("email")}
-                      type="email"
-                      autoComplete="email"
-                      // Allowed, because it is a format hint rather than a
-                      // stand-in for the label above it.
-                      placeholder="name@example.com"
-                    />
-                  </Field>
-
-                  <Field
-                    id={`${formId}-projectType`}
-                    label="What kind of project"
-                    error={errors.projectType}
-                  >
-                    <select {...controlProps("projectType")}>
-                      <option value="">Choose one</option>
-                      {PROJECT_TYPES.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-
-                  <Field
-                    id={`${formId}-budget`}
-                    label="Budget range"
-                    error={errors.budget}
-                  >
-                    <select {...controlProps("budget")}>
-                      <option value="">Choose one</option>
-                      {BUDGET_RANGES.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-
-                  <Field
-                    id={`${formId}-message`}
-                    label="The project"
-                    error={errors.message}
-                    className="sm:col-span-2"
-                  >
-                    <textarea
-                      {...controlProps("message")}
-                      rows={6}
-                      className={cn(controlProps("message").className, "resize-y")}
-                    />
-                  </Field>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={pending}
-                  className={cn(
-                    "type-body bg-ink text-ink-inverse mt-[var(--space-8)] rounded-xs",
-                    "px-[var(--space-6)] py-[var(--space-3)]",
-                    "transition-opacity duration-[var(--duration-fast)]",
-                    pending ? "opacity-60" : "hover:opacity-90",
-                  )}
+                <Field
+                  id={`${formId}-projectType`}
+                  label="What kind of project"
+                  error={errors.projectType}
                 >
-                  {pending ? "Sending" : "Send enquiry"}
-                </button>
-              </form>
-            )}
-          </div>
+                  <select {...controlProps("projectType")}>
+                    <option value="">Choose one</option>
+                    {PROJECT_TYPES.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+
+                <Field id={`${formId}-budget`} label="Budget range" error={errors.budget}>
+                  <select {...controlProps("budget")}>
+                    <option value="">Choose one</option>
+                    {BUDGET_RANGES.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+
+                <Field
+                  id={`${formId}-message`}
+                  label="The project"
+                  error={errors.message}
+                  className="sm:col-span-2"
+                >
+                  <textarea
+                    {...controlProps("message")}
+                    rows={6}
+                    className={cn(controlProps("message").className, "resize-y")}
+                  />
+                </Field>
+              </div>
+
+              <button
+                type="submit"
+                disabled={pending}
+                className={cn(
+                  "type-body bg-ink text-ink-inverse mt-[var(--space-8)] rounded-xs",
+                  "px-[var(--space-6)] py-[var(--space-3)]",
+                  "transition-opacity duration-[var(--duration-fast)]",
+                  pending ? "opacity-60" : "hover:opacity-90",
+                )}
+              >
+                {pending ? "Sending" : "Send enquiry"}
+              </button>
+            </form>
+          )}
         </div>
-      </Container>
-    </section>
+      </div>
+    </Section>
   );
 }

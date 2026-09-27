@@ -107,11 +107,9 @@ const SPACING = [
   "16",
   "20",
   "24",
-  "32",
-  "40",
 ] as const;
 
-const RADIUS = ["none", "xs", "sm", "md", "full"] as const;
+const RADIUS = ["none", "xs", "full"] as const;
 
 const Z_INDEX = [
   { name: "under", use: "The sheen, behind everything" },
