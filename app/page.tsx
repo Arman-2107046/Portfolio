@@ -2,13 +2,11 @@ import { SiteFooter } from "@/components/chrome/site-footer";
 import { SiteHeader } from "@/components/chrome/site-header";
 import { About } from "@/components/sections/about";
 import { Capabilities } from "@/components/sections/capabilities";
+import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { Process } from "@/components/sections/process";
 import { SelectedWork } from "@/components/sections/selected-work";
 import { StackGrid } from "@/components/sections/stack-grid";
-import { Section } from "@/components/layout/section";
-import { Stack } from "@/components/layout/stack";
-import { navItems } from "@/content/navigation";
 
 export default function HomePage() {
   return (
@@ -31,20 +29,7 @@ export default function HomePage() {
 
         <About />
 
-        {navItems
-          .filter((item) => item.id === "contact")
-          .map((item) => (
-            <Section key={item.id} id={item.id} rule rhythm="loose">
-              <Stack gap={4}>
-                <p className="type-mono text-ink-muted">{item.id}</p>
-                <h2 className="type-h1">{item.label}</h2>
-                <p className="measure type-body text-ink-muted">
-                  Placeholder section, so the active-section observer and the in-page
-                  navigation can be exercised before the real content arrives.
-                </p>
-              </Stack>
-            </Section>
-          ))}
+        <Contact />
       </main>
 
       <SiteFooter />
