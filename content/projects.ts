@@ -1,4 +1,22 @@
-import type { Project } from "./types";
+import type { Lane, Project } from "./types";
+
+/**
+ * Display names for the filter. Kept beside the data so the archive cannot
+ * offer a lane the projects do not use — scripts/check-content.mts fails the
+ * build if any lane here has nothing in it.
+ */
+export const laneLabels: Record<Lane, string> = {
+  commerce: "Commerce",
+  platform: "Platform",
+  corporate: "Corporate",
+  nonprofit: "Non-profit",
+};
+
+export const lanes: Lane[] = ["commerce", "platform", "corporate", "nonprofit"];
+
+export function isLane(value: string | undefined): value is Lane {
+  return value !== undefined && lanes.includes(value as Lane);
+}
 
 /**
  * The six projects, strongest first. Array order is display order.
