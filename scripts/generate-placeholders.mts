@@ -1,0 +1,147 @@
+/**
+ * Generates stand-in imagery for every project image declared in content.
+ *
+ * These are deliberately schematic — a hairline wireframe with the project name
+ * and the word "placeholder" — rather than anything that could be mistaken for a
+ * screenshot of work that was never done. They exist so the layout can be built
+ * and measured at the real aspect ratio, and so CLS is zero before the real
+ * assets arrive.
+ *
+ * It skips any file that already exists, so dropping a real screenshot in at the
+ * same path and re-running will not overwrite it.
+ *
+ *   npx tsx scripts/generate-placeholders.mts
+ */
+
+import { mkdir, writeFile, access } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import sharp from "sharp";
+import { projects } from "../content/projects";
+import type { ProjectImage } from "../content/types";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const PUBLIC_DIR = join(root, "public");
+
+async function exists(path: string): Promise<boolean> {
+  try {
+    await access(path);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Escapes text for inclusion in SVG. */
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/**
+ * A schematic frame. Monochrome, hairline-ruled, and labelled — it reads as a
+ * drawing of where an image goes, which is exactly what it is.
+ */
+function schematic(image: ProjectImage, projectName: string, role: string): Buffer {
+  const { width, height } = image;
+  const step = 80;
+
+  const verticals: string[] = [];
+  for (let x = step; x < width; x += step) {
+    verticals.push(`<line x1="${x}" y1="0" x2="${x}" y2="${height}" />`);
+  }
+  const horizontals: string[] = [];
+  for (let y = step; y < height; y += step) {
+    horizontals.push(`<line x1="0" y1="${y}" x2="${width}" y2="${y}" />`);
+  }
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+  <rect width="${width}" height="${height}" fill="#f4f4f2" />
+  <g stroke="#e3e3e0" stroke-width="1">${verticals.join("")}${horizontals.join("")}</g>
+  <g stroke="#858581" stroke-width="2" fill="none">
+    <rect x="1" y="1" width="${width - 2}" height="${height - 2}" />
+    <line x1="1" y1="1" x2="${width - 1}" y2="${height - 1}" />
+    <line x1="${width - 1}" y1="1" x2="1" y2="${height - 1}" />
+  </g>
+  <rect x="${width / 2 - 340}" y="${height / 2 - 78}" width="680" height="156" fill="#f4f4f2" stroke="#858581" stroke-width="2" />
+  <text x="${width / 2}" y="${height / 2 - 26}" text-anchor="middle" font-family="monospace" font-size="26" letter-spacing="2" fill="#4f535a">PLACEHOLDER</text>
+  <text x="${width / 2}" y="${height / 2 + 14}" text-anchor="middle" font-family="sans-serif" font-size="34" font-weight="500" fill="#0e0f12">${escapeXml(projectName)}</text>
+  <text x="${width / 2}" y="${height / 2 + 50}" text-anchor="middle" font-family="monospace" font-size="20" fill="#4f535a">${escapeXml(role)} · ${width}×${height}</text>
+</svg>`;
+
+  return Buffer.from(svg);
+}
+
+/**
+ * A blur placeholder, derived from the file itself.
+ *
+ * 16px wide is the whole point: large enough to carry the image's colour
+ * distribution, small enough that the base64 costs less than the request it
+ * replaces. WebP because it survives that size better than JPEG.
+ */
+async function blurDataUrl(filePath: string): Promise<string> {
+  const buffer = await sharp(filePath)
+    .resize(16, null, { fit: "inside" })
+    .webp({ quality: 45 })
+    .toBuffer();
+  return `data:image/webp;base64,${buffer.toString("base64")}`;
+}
+
+const blurMap: Record<string, string> = {};
+let generated = 0;
+let kept = 0;
+
+for (const project of projects) {
+  const images: { image: ProjectImage; role: string }[] = [
+    { image: project.cover, role: "cover" },
+    ...project.gallery.map((image) => ({ image, role: "gallery" })),
+  ];
+
+  for (const { image, role } of images) {
+    const filePath = join(PUBLIC_DIR, image.src);
+    await mkdir(dirname(filePath), { recursive: true });
+
+    if (await exists(filePath)) {
+      kept += 1;
+    } else {
+      const png = await sharp(schematic(image, project.name, role))
+        .png({ compressionLevel: 9 })
+        .toBuffer();
+      await writeFile(filePath, png);
+      generated += 1;
+    }
+
+    // Verify the file on disk actually matches the declared dimensions. A
+    // mismatch here is the cause of layout shift, so it is worth failing over.
+    const meta = await sharp(filePath).metadata();
+    if (meta.width !== image.width || meta.height !== image.height) {
+      console.error(
+        `Dimension mismatch for ${image.src}: content declares ` +
+          `${image.width}x${image.height}, file is ${meta.width}x${meta.height}`,
+      );
+      process.exit(1);
+    }
+
+    blurMap[image.src] = await blurDataUrl(filePath);
+  }
+}
+
+const moduleSource = `// Generated by scripts/generate-placeholders.mts — do not edit by hand.
+//
+// Blur placeholders derived from the files in public/work/. Regenerate after
+// replacing any image:
+//
+//   npx tsx scripts/generate-placeholders.mts
+
+export const blurData: Record<string, string> = ${JSON.stringify(blurMap, null, 2)};
+`;
+
+await writeFile(join(root, "content/blur.generated.ts"), moduleSource, "utf8");
+
+console.log(
+  `Images: ${generated} placeholder(s) generated, ${kept} existing file(s) left alone.\n` +
+    `Blur data written for ${Object.keys(blurMap).length} image(s).`,
+);
