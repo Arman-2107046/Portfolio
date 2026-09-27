@@ -1,5 +1,38 @@
 import type { Metadata } from "next";
+import { IBM_Plex_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+
+/*
+ * Three families, each with one job. See DESIGN.md section 2.
+ *
+ * Instrument Sans and Instrument Serif are preloaded: both appear in the hero,
+ * and the headline is the LCP element. IBM Plex Mono is not preloaded — it
+ * carries 14px metadata only, so a swap costs nothing visible above the fold
+ * and keeps a third font file off the critical path.
+ */
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-instrument-sans",
+  preload: true,
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  display: "swap",
+  variable: "--font-instrument-serif",
+  preload: true,
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-plex-mono",
+  preload: false,
+});
 
 export const metadata: Metadata = {
   title: "Arman Rahman Rafi — Full-Stack Web Developer",
@@ -9,7 +42,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      data-theme="light"
+      className={`${instrumentSans.variable} ${instrumentSerif.variable} ${plexMono.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

@@ -6,6 +6,74 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
+const TYPE_STEPS = [
+  {
+    utility: "type-display-xl",
+    size: "44→120px",
+    tracking: "-0.04em",
+    leading: "0.94",
+    sample: "I build the whole system",
+  },
+  {
+    utility: "type-display-l",
+    size: "32→60px",
+    tracking: "-0.03em",
+    leading: "1.02",
+    sample: "Recovering the conversions the browser stopped reporting",
+  },
+  {
+    utility: "type-h1",
+    size: "28→40px",
+    tracking: "-0.02em",
+    leading: "1.10",
+    sample: "Selected work",
+  },
+  {
+    utility: "type-h2",
+    size: "22→28px",
+    tracking: "-0.015em",
+    leading: "1.18",
+    sample: "Hockerty Premium Suit Designer",
+  },
+  {
+    utility: "type-h3",
+    size: "18→20px",
+    tracking: "-0.01em",
+    leading: "1.30",
+    sample: "Data and infrastructure",
+  },
+  {
+    utility: "type-body-l",
+    size: "17→20px",
+    tracking: "0",
+    leading: "1.60",
+    sample:
+      "Schema, application, server, and the analytics that prove it worked. One person, end to end.",
+  },
+  {
+    utility: "type-body",
+    size: "16→17px",
+    tracking: "0",
+    leading: "1.65",
+    sample:
+      "The engineering problem was image delivery and state, not the interface on top of it.",
+  },
+  {
+    utility: "type-caption",
+    size: "14px",
+    tracking: "+0.01em",
+    leading: "1.45",
+    sample: "Format: +880, or an international number with the country code.",
+  },
+  {
+    utility: "type-mono",
+    size: "14px",
+    tracking: "+0.02em",
+    leading: "1.40",
+    sample: "AVAILABLE — 2026 · ASIA/DHAKA · GMT+6 · 0123456789",
+  },
+] as const;
+
 const COLOUR_TOKENS = [
   { name: "canvas", role: "The page itself" },
   { name: "raised", role: "The only secondary surface" },
@@ -57,19 +125,13 @@ const Z_INDEX = [
 const DURATIONS = ["fast", "base", "slow", "reveal"] as const;
 
 function Label({ children }: { children: ReactNode }) {
-  return (
-    <span className="text-ink-muted font-mono tracking-[var(--tracking-mono)] text-[var(--text-mono)]">
-      {children}
-    </span>
-  );
+  return <span className="type-mono text-ink-muted">{children}</span>;
 }
 
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="border-hairline border-t pt-[var(--space-6)]">
-      <h2 className="mb-[var(--space-6)] font-mono tracking-[var(--tracking-mono)] text-[var(--text-mono)] uppercase">
-        {title}
-      </h2>
+      <h2 className="type-mono mb-[var(--space-6)] uppercase">{title}</h2>
       {children}
     </section>
   );
@@ -95,12 +157,8 @@ function Swatches({ theme }: { theme: "light" | "dark" }) {
               style={{ backgroundColor: `var(--${token.name})` }}
             />
             <span className="min-w-0">
-              <span className="block font-mono tracking-[var(--tracking-mono)] text-[var(--text-mono)]">
-                --{token.name}
-              </span>
-              <span className="text-ink-muted block leading-[var(--leading-caption)] text-[var(--text-caption)]">
-                {token.role}
-              </span>
+              <span className="type-mono block">--{token.name}</span>
+              <span className="type-caption text-ink-muted block">{token.role}</span>
             </span>
           </li>
         ))}
@@ -138,17 +196,71 @@ export default function StyleguidePage() {
       className="mx-auto flex max-w-[var(--content-max)] flex-col gap-[var(--space-16)] px-[var(--page-margin)] py-[var(--space-16)]"
     >
       <header>
-        <h1 className="leading-[var(--leading-h1)] tracking-[var(--tracking-h1)] text-[var(--text-h1)]">
-          Token styleguide
-        </h1>
-        <p className="measure text-ink-muted mt-[var(--space-4)]">
-          Every colour, space, radius, border, layer and duration the site is allowed to
-          use. If a value is not on this page, it does not exist in the codebase. Raw hex
-          lives only in{" "}
-          <code className="font-mono text-[var(--text-mono)]">app/styles/tokens.css</code>
-          .
+        <h1 className="type-h1">Token styleguide</h1>
+        <p className="measure type-body text-ink-muted mt-[var(--space-4)]">
+          Every colour, space, radius, border, layer, duration and type step the site is
+          allowed to use. If a value is not on this page, it does not exist in the
+          codebase. Raw hex lives only in{" "}
+          <code className="type-mono">app/styles/tokens.css</code>.
         </p>
       </header>
+
+      <Block title="Type specimen">
+        <div className="flex flex-col gap-[var(--space-8)]">
+          {TYPE_STEPS.map((step) => (
+            <div key={step.utility}>
+              <p className="mb-[var(--space-2)]">
+                <Label>
+                  .{step.utility} — {step.size} / {step.tracking} / {step.leading}
+                </Label>
+              </p>
+              <p className={step.utility}>{step.sample}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="border-hairline mt-[var(--space-12)] border-t pt-[var(--space-6)]">
+          <p className="mb-[var(--space-4)]">
+            <Label>running prose at real measure — 68ch, target 66–72 characters</Label>
+          </p>
+          <p className="measure type-body">
+            Browser pixels were losing conversion events to ad blockers and to
+            Safari&apos;s tracking prevention, so the reported revenue on the platform was
+            consistently below what the database recorded. The fix was to stop treating
+            the browser as the source of truth: the server now emits the purchase event to
+            the Conversions API at the moment the order row is written, with a
+            deduplication key shared with the client-side pixel.
+          </p>
+          <p className="measure type-body mt-[var(--space-4)]">
+            A second paragraph, so the interline rhythm can be judged rather than guessed.
+            Line length is capped in characters rather than pixels, which is why the
+            measure holds whether the visitor has bumped their root font size or not.
+          </p>
+        </div>
+
+        <div className="border-hairline mt-[var(--space-12)] border-t pt-[var(--space-6)]">
+          <p className="mb-[var(--space-4)]">
+            <Label>the two permitted serif uses</Label>
+          </p>
+          <p className="type-display-l">
+            not the <span className="type-accentuate">screens</span> only
+          </p>
+        </div>
+
+        <div className="border-hairline mt-[var(--space-12)] border-t pt-[var(--space-6)]">
+          <p className="mb-[var(--space-4)]">
+            <Label>the metadata layer, as it appears in the mono rail</Label>
+          </p>
+          <dl className="type-mono grid grid-cols-[6rem_1fr] gap-x-[var(--space-6)] gap-y-[var(--space-2)]">
+            <dt className="text-ink-muted">ROLE</dt>
+            <dd>Full-stack, sole engineer</dd>
+            <dt className="text-ink-muted">YEAR</dt>
+            <dd>2025</dd>
+            <dt className="text-ink-muted">STACK</dt>
+            <dd>Laravel, React, Meta CAPI, GA4</dd>
+          </dl>
+        </div>
+      </Block>
 
       <Block title="Colour, both themes">
         <div className="grid gap-[var(--space-6)] md:grid-cols-2">
@@ -179,12 +291,8 @@ export default function StyleguidePage() {
             {CONTRAST.map((row) => (
               <tr key={row.pair} className="border-hairline border-b">
                 <td className="py-[var(--space-2)]">{row.pair}</td>
-                <td className="py-[var(--space-2)] font-mono text-[var(--text-mono)]">
-                  {row.light}
-                </td>
-                <td className="py-[var(--space-2)] font-mono text-[var(--text-mono)]">
-                  {row.dark}
-                </td>
+                <td className="type-mono py-[var(--space-2)]">{row.light}</td>
+                <td className="type-mono py-[var(--space-2)]">{row.dark}</td>
                 <td className="text-ink-muted py-[var(--space-2)]">{row.need}</td>
               </tr>
             ))}
@@ -253,7 +361,7 @@ export default function StyleguidePage() {
       </Block>
 
       <Block title="Motion">
-        <p className="measure text-ink-muted mb-[var(--space-6)]">
+        <p className="measure type-body text-ink-muted mb-[var(--space-6)]">
           One easing for everything that moves. No spring, no bounce. Hover a bar to run
           it.
         </p>
@@ -276,25 +384,19 @@ export default function StyleguidePage() {
             <dt className="w-32 shrink-0">
               <Label>--ease-out</Label>
             </dt>
-            <dd className="text-ink-muted font-mono text-[var(--text-mono)]">
-              cubic-bezier(0.16, 1, 0.3, 1)
-            </dd>
+            <dd className="type-mono text-ink-muted">cubic-bezier(0.16, 1, 0.3, 1)</dd>
           </div>
           <div className="flex gap-[var(--space-4)]">
             <dt className="w-32 shrink-0">
               <Label>--ease-in-out</Label>
             </dt>
-            <dd className="text-ink-muted font-mono text-[var(--text-mono)]">
-              cubic-bezier(0.65, 0, 0.35, 1)
-            </dd>
+            <dd className="type-mono text-ink-muted">cubic-bezier(0.65, 0, 0.35, 1)</dd>
           </div>
           <div className="flex gap-[var(--space-4)]">
             <dt className="w-32 shrink-0">
               <Label>--stagger</Label>
             </dt>
-            <dd className="text-ink-muted font-mono text-[var(--text-mono)]">
-              70ms, hero reveal only
-            </dd>
+            <dd className="type-mono text-ink-muted">70ms, hero reveal only</dd>
           </div>
         </dl>
       </Block>

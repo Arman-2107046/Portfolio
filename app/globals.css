@@ -223,3 +223,108 @@
 @utility measure-lead {
   max-width: var(--measure-lead);
 }
+
+/*
+ * The type scale, as one utility per step. Each step carries its own size,
+ * tracking and leading together, because they are a single typographic
+ * decision — splitting them across three classes is how a scale drifts.
+ * Tracking tightens as size grows; leading opens as size shrinks.
+ * See DESIGN.md section 2.
+ */
+@utility type-display-xl {
+  font-family: var(--font-sans);
+  font-size: var(--text-display-xl);
+  letter-spacing: var(--tracking-display-xl);
+  line-height: var(--leading-display-xl);
+  font-weight: 500;
+  /* At display size the browser must not invent a bolder cut. */
+  font-synthesis: none;
+  text-wrap: balance;
+}
+
+@utility type-display-l {
+  font-family: var(--font-sans);
+  font-size: var(--text-display-l);
+  letter-spacing: var(--tracking-display-l);
+  line-height: var(--leading-display-l);
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+@utility type-h1 {
+  font-family: var(--font-sans);
+  font-size: var(--text-h1);
+  letter-spacing: var(--tracking-h1);
+  line-height: var(--leading-h1);
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+@utility type-h2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-h2);
+  letter-spacing: var(--tracking-h2);
+  line-height: var(--leading-h2);
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+@utility type-h3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-h3);
+  letter-spacing: var(--tracking-h3);
+  line-height: var(--leading-h3);
+  font-weight: 500;
+}
+
+@utility type-body-l {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-l);
+  letter-spacing: var(--tracking-body);
+  line-height: var(--leading-body-l);
+  font-weight: 400;
+  text-wrap: pretty;
+}
+
+@utility type-body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  letter-spacing: var(--tracking-body);
+  line-height: var(--leading-body);
+  font-weight: 400;
+  text-wrap: pretty;
+}
+
+@utility type-caption {
+  font-family: var(--font-sans);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-caption);
+  line-height: var(--leading-caption);
+  font-weight: 400;
+}
+
+/*
+ * The metadata layer. Every specified value on the site — year, role, stack
+ * name, index numeral, field label, the Dhaka clock — is set in this one
+ * utility, and nothing else is. That restriction is what produces the
+ * datasheet read the layout depends on.
+ */
+@utility type-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  line-height: var(--leading-mono);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The serif is italic-only and has exactly two uses: one word in the hero
+ * headline, and the case-study pull quote. */
+@utility type-accentuate {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  /* The serif has a smaller cap height than the sans it sits inside, so it
+   * needs a nudge to sit on the same baseline optically. */
+  letter-spacing: -0.005em;
+}
