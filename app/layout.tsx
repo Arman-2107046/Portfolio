@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { GridOverlay } from "@/components/dev/grid-overlay";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { THEME_SCRIPT } from "@/lib/theme";
 import "./globals.css";
 
 /*
@@ -46,9 +47,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      data-theme="light"
+      // The blocking script below rewrites data-theme before paint, so the
+      // server markup and the first client render disagree by design.
+      suppressHydrationWarning
       className={`${instrumentSans.variable} ${instrumentSerif.variable} ${plexMono.variable}`}
     >
+      <head>
+        {/*
+         * Must run blocking, in <head>, ahead of the first paint. next/script
+         * with beforeInteractive is not early enough: it still lands after the
+         * document has painted once, which is the white flash this prevents.
+         */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>
         <SmoothScroll />
         {children}

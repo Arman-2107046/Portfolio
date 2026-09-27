@@ -15,13 +15,17 @@
  */
 :root,
 [data-theme="light"] {
+  /* Tells the browser which way its own widgets should lean: form controls,
+   * the scrollbar, and the flash of background before CSS applies. */
+  color-scheme: light;
+
   /* ---- Colour: light, the default theme ---- */
   --canvas: #ffffff;
   --raised: #f4f4f2;
   --ink: #0e0f12;
   --ink-muted: #4f535a;
   --hairline: #e3e3e0;
-  --edge: #8e8e8a;
+  --edge: #858581;
   --accent: #1b36c9;
 
   /* Text drawn on top of an ink-filled control. */
@@ -133,6 +137,8 @@
 }
 
 [data-theme="dark"] {
+  color-scheme: dark;
+
   --canvas: #0b0c0e;
   --raised: #14161a;
   --ink: #f0f1f3;

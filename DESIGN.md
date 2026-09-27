@@ -25,7 +25,7 @@ file.
 | `ink`       | `#0E0F12` | All primary text, all rules that carry meaning, all filled controls.                                                             | 19.17:1                 |
 | `ink-muted` | `#4F535A` | Secondary prose, metadata values, captions.                                                                                      | 7.73:1 (AAA)            |
 | `hairline`  | `#E3E3E0` | Decorative structure: section rules, column dividers, the grid. Never the only indicator of anything.                            | 1.29:1 (decorative)     |
-| `edge`      | `#8E8E8A` | The border of an interactive element at rest — inputs, buttons, chips.                                                            | 3.29:1 (AA non-text)    |
+| `edge`      | `#858581` | The border of an interactive element at rest — inputs, buttons, chips.                                                            | 3.70:1 (AA non-text)    |
 | `accent`    | `#1B36C9` | Marks, rules, link underlines, focus rings, the active-section tick.                                                             | 8.69:1                  |
 
 ### Dark

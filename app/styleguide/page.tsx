@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ThemeToggle } from "@/components/chrome/theme-toggle";
 import type { ReactNode } from "react";
 
 export const metadata = {
@@ -90,7 +91,8 @@ const CONTRAST = [
   { pair: "ink-muted on canvas", light: "7.73:1", dark: "8.18:1", need: "AAA" },
   { pair: "accent on canvas", light: "8.69:1", dark: "8.65:1", need: "AAA" },
   { pair: "ink-muted on raised", light: "7.02:1", dark: "6.89:1", need: "AA" },
-  { pair: "edge on canvas", light: "3.29:1", dark: "3.70:1", need: "AA non-text" },
+  { pair: "edge on canvas", light: "3.70:1", dark: "3.70:1", need: "AA non-text" },
+  { pair: "edge on raised", light: "3.36:1", dark: "3.43:1", need: "AA non-text" },
 ] as const;
 
 const SPACING = [
@@ -196,7 +198,10 @@ export default function StyleguidePage() {
       className="mx-auto flex max-w-[var(--content-max)] flex-col gap-[var(--space-16)] px-[var(--page-margin)] py-[var(--space-16)]"
     >
       <header>
-        <h1 className="type-h1">Token styleguide</h1>
+        <div className="flex items-start justify-between gap-[var(--space-4)]">
+          <h1 className="type-h1">Token styleguide</h1>
+          <ThemeToggle className="-mr-[var(--space-3)] shrink-0" />
+        </div>
         <p className="measure type-body text-ink-muted mt-[var(--space-4)]">
           Every colour, space, radius, border, layer, duration and type step the site is
           allowed to use. If a value is not on this page, it does not exist in the

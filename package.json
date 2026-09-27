@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "gate": "npm run lint && npm run typecheck && npm run build"
+    "gate": "npm run lint && npm run typecheck && npm run check:contrast && npm run build",
+    "check:contrast": "node scripts/check-contrast.mjs"
   },
   "dependencies": {
     "framer-motion": "^13.4.4",
