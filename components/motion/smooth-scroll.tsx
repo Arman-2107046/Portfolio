@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { DURATION } from "@/lib/motion";
+import { setLenis } from "./lenis-instance";
 
 /** Reproduces the site easing as the function Lenis wants. */
 function easeOut(t: number): number {
@@ -38,11 +39,13 @@ export function SmoothScroll() {
         // phone feel worse, not better.
         syncTouch: false,
       });
+      setLenis(lenis);
     }
 
     function stop() {
       lenis?.destroy();
       lenis = null;
+      setLenis(null);
     }
 
     function sync() {

@@ -1,33 +1,40 @@
-import { Grid } from "@/components/layout/grid";
+import { SiteHeader } from "@/components/chrome/site-header";
 import { Section } from "@/components/layout/section";
 import { Stack } from "@/components/layout/stack";
+import { navItems } from "@/content/navigation";
 
 export default function HomePage() {
   return (
-    <main>
-      <Section rhythm="loose">
-        <Stack gap={4}>
-          <p className="type-mono text-ink-muted">rhythm check</p>
-          <h1 className="type-h1">First section</h1>
-          <p className="measure type-body text-ink-muted">
-            Two stacked sections, both using padding rather than margin, so the gap
-            between them is the sum of two tokens and nothing collapses. Press ctrl/cmd +
-            G to confirm the content edge sits on the grid.
-          </p>
-        </Stack>
-      </Section>
+    <>
+      <SiteHeader />
 
-      <Section rule>
-        <Grid columns="split">
-          <p className="type-mono text-ink-muted">SECOND</p>
-          <p className="measure type-body">
-            The datasheet split: a mono label rail, the content column, then right-aligned
-            specified values. This skeleton repeats across capabilities, process and every
-            case study.
-          </p>
-          <p className="type-mono text-ink-muted lg:text-right">2026</p>
-        </Grid>
-      </Section>
-    </main>
+      <main id="main">
+        <Section rhythm="loose">
+          <Stack gap={4}>
+            <h1 className="type-h1">Hero placeholder</h1>
+            <p className="measure type-body text-ink-muted">
+              The hero lands in step 12. The sentinel below is what the header watches to
+              decide when to stop being transparent.
+            </p>
+          </Stack>
+        </Section>
+
+        {/* Zero-height marker at the end of the hero. See SiteHeader. */}
+        <div id="header-sentinel" aria-hidden="true" />
+
+        {navItems.map((item) => (
+          <Section key={item.id} id={item.id} rule rhythm="loose">
+            <Stack gap={4}>
+              <p className="type-mono text-ink-muted">{item.id}</p>
+              <h2 className="type-h1">{item.label}</h2>
+              <p className="measure type-body text-ink-muted">
+                Placeholder section, so the active-section observer and the in-page
+                navigation can be exercised before the real content arrives.
+              </p>
+            </Stack>
+          </Section>
+        ))}
+      </main>
+    </>
   );
 }
